@@ -1,0 +1,12 @@
+/.gradle
+/gradle/wrapper/*
+/.idea
+/build
+/kotlin-js-store
+*.iml
+*.hprof
+*.log
+korge.keystore
+local.properties
+src/main/*
+.DS_Store
