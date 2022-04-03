@@ -1,12 +1,9 @@
 package containers.enemy
 
 import com.soywiz.korge.view.Sprite
-import com.soywiz.korge.view.onCollision
 import com.soywiz.korge.view.position
 import com.soywiz.korma.geom.IPoint
-import com.soywiz.korma.geom.XY
 import containers.SpriteEntity
-import containers.bullet.PlayerBullet
 import program.*
 
 @Suppress("MemberVisibilityCanBePrivate")

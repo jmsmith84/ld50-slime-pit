@@ -1,12 +1,10 @@
 package utility
 
 import com.soywiz.kds.iterators.fastForEachWithIndex
-import components.movement.MoveDirection
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.*
-import com.soywiz.korge.view.filter.IdentityFilter.Companion.smoothing
 import com.soywiz.korge.view.tiles.TileMap
 import com.soywiz.korge.view.tiles.tileMap
 import com.soywiz.korma.geom.Point
@@ -14,6 +12,7 @@ import com.soywiz.korma.geom.Rectangle
 import com.soywiz.korma.geom.Size
 import com.soywiz.korma.geom.SizeInt
 import com.soywiz.korma.geom.shape.Shape2d
+import components.movement.MoveDirection
 import program.Log
 
 operator fun Shape2d.Rectangle.times(scale: Double): Shape2d.Rectangle {

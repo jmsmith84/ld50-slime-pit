@@ -4,7 +4,6 @@ import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.seconds
 import com.soywiz.korge.component.FixedUpdateComponent
-import com.soywiz.korge.view.position
 import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.XY
 import containers.GameEntity

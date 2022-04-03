@@ -2,9 +2,7 @@ package components.movement
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.component.UpdateComponent
-import com.soywiz.korge.view.View
 import containers.GameEntity
-import utility.getDeltaScale
 import kotlin.math.sin
 
 class VerticalSineMovement(

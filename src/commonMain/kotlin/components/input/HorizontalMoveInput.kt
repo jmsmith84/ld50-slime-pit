@@ -2,12 +2,9 @@ package components.input
 
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korev.Key
-import com.soywiz.korge.component.UpdateComponent
 import com.soywiz.korge.component.UpdateComponentWithViews
-import com.soywiz.korge.input.Input
 import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korge.view.Views
-import com.soywiz.korma.math.clamp
 import containers.SpriteEntity
 
 class HorizontalMoveInput(

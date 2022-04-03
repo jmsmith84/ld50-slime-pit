@@ -1,7 +1,6 @@
 package components
 
 import com.soywiz.korma.geom.IPoint
-import com.soywiz.korma.geom.Point
 import containers.GameEntity
 import containers.enemy.AcidSlime
 import program.AssetManager

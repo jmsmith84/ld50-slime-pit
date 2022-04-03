@@ -3,7 +3,9 @@ package components.movement
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.component.UpdateComponent
 import com.soywiz.korge.view.View
-import com.soywiz.korma.geom.*
+import com.soywiz.korma.geom.XY
+import com.soywiz.korma.geom.add
+import com.soywiz.korma.geom.times
 import utility.getDeltaScale
 
 class StraightMovement(

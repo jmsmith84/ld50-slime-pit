@@ -1,6 +1,5 @@
 package program
 
-import com.soywiz.klock.milliseconds
 import com.soywiz.korau.sound.Sound
 import com.soywiz.korge.particle.ParticleEmitter
 import com.soywiz.korge.tiled.TiledMap

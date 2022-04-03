@@ -5,7 +5,6 @@ import com.soywiz.korge.component.attach
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.onCollision
-import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korio.dynamic.dyn
 import com.soywiz.korma.geom.Point
 import components.collision.MovesWithTilemapCollision
@@ -15,7 +14,6 @@ import components.movement.ClampMovement
 import containers.SpriteEntity
 import containers.bullet.EnemyBullet
 import containers.enemy.Enemy
-import kotlinx.coroutines.Dispatchers
 import program.*
 
 const val PLAYER_NAME = "PLAYER"
