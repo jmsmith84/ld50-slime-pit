@@ -12,6 +12,7 @@ import com.soywiz.korma.geom.Rectangle
 import com.soywiz.korma.geom.Size
 import com.soywiz.korma.geom.SizeInt
 import com.soywiz.korma.geom.shape.Shape2d
+import com.soywiz.korma.math.roundDecimalPlaces
 import components.movement.MoveDirection
 import program.Log
 
@@ -140,4 +141,8 @@ fun TiledMapView.recreateTileLayers(smoothing: Boolean) {
                 .also { it.addProps(layer.properties) }
         }
     }
+}
+
+fun Double.getSecondsDisplay(): String {
+    return roundDecimalPlaces(1).toString().padStart(6, '0').padEnd(6, '0')
 }

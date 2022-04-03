@@ -32,7 +32,8 @@ class MultipliesAdjacent(
     private fun isTileEmpty(position: XY): Boolean {
         val tileXY = levelManager.globalXYToTileXY(position.x, position.y)
         val tileId = levelManager.getTileIdAt(tileXY.x.toInt(), tileXY.y.toInt())
-        if (tileId !== null && tileId > 0) {
+        if (tileId === null) return false
+        if (tileId > 0) {
             levelManager.setTileIdAt(tileXY.x.toInt(), tileXY.y.toInt(), 0)
             return false
         }

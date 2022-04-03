@@ -14,7 +14,7 @@ abstract class SpriteEnemy(
     levelManager: LevelManager,
     position: IPoint
 ) : SpriteEntity(sprite, assets, soundManager, levelManager), Enemy {
-    protected open val value = 100
+    protected open val value = 100u
 
     override fun kill() {
         this.removeFromParent()

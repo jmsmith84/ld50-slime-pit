@@ -8,14 +8,18 @@ import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.position
+import com.soywiz.korge.view.text
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
+import com.soywiz.korma.math.roundDecimalPlaces
 import components.GameEntityFactory
 import components.SlimeFactory
 import containers.GameEntity
 import containers.player.Player
 import containers.spawn.SlimeSpawner
 import program.*
+import utility.getSecondsDisplay
+import kotlin.math.roundToInt
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class GameScene : Scene() {
@@ -50,6 +54,31 @@ open class GameScene : Scene() {
                 else -> {}
             }
         }
+
+        text("LEVEL 01") {
+            textSize = 18.0
+            font = assets.defaultFont
+            position(10, views.virtualHeight - 40)
+            addUpdater {
+                text = "LEVEL " + levelManager.getLevel().toString().padStart(2, '0')
+            }
+        }
+        text("0 SECONDS") {
+            textSize = 18.0
+            font = assets.defaultFont
+            position(10, views.virtualHeight - 20)
+            addUpdater {
+                text = "${GameState.timeAlive.getSecondsDisplay()} SECONDS"
+            }
+        }
+        text("HI 0 SECONDS") {
+            textSize = 18.0
+            font = assets.defaultFont
+            position(views.virtualWidth - 90, views.virtualHeight - 20)
+            addUpdater {
+                text = "HI ${GameState.hiTimeAlive.getSecondsDisplay()}"
+            }
+        }
     }
 
     protected fun exitToMenu() {
@@ -61,7 +90,7 @@ open class GameScene : Scene() {
     protected fun resetGame() {
         mapView.x = 0.0
         mapView.y = 0.0
-        GameState.score = 0
+        GameState.timeAlive = 0.0
 
         mapView.fastForEachChild {
             if (it is GameEntity && it !is Player) {
@@ -89,8 +118,7 @@ open class GameScene : Scene() {
 
     override suspend fun Container.sceneMain() {
         addUpdater {
-            //Log().info { player.move }
-            GameState.hiScore = if (GameState.score > GameState.hiScore) GameState.score else GameState.hiScore
+            GameState.hiTimeAlive = if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
         }
     }
 }

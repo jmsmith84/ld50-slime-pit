@@ -1,20 +1,25 @@
 package containers.player
 
 import com.soywiz.klock.milliseconds
+import com.soywiz.korge.component.Component
 import com.soywiz.korge.component.attach
 import com.soywiz.korge.view.Sprite
+import com.soywiz.korge.view.View
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.onCollision
 import com.soywiz.korio.dynamic.dyn
 import com.soywiz.korma.geom.Point
+import components.MultipliesAdjacent
 import components.collision.MovesWithTilemapCollision
 import components.input.HorizontalMoveInput
 import components.input.VerticalMoveInput
 import components.movement.ClampMovement
 import containers.SpriteEntity
 import containers.bullet.EnemyBullet
+import containers.enemy.AcidSlime
 import containers.enemy.Enemy
 import program.*
+import kotlin.reflect.KClass
 
 const val PLAYER_NAME = "PLAYER"
 
@@ -40,18 +45,25 @@ open class Player(
             }
         }
         addUpdater {
-            if (!isDead) GameState.timeAlive += it.dyn.toDouble() else return@addUpdater
+            if (!isDead) GameState.timeAlive += it.seconds else return@addUpdater
         }
     }
 
     override fun kill() {
         if (isDead) return
         isDead = true
-        GameState.timeAlive = 0.0
+        GameState.hiTimeAlive = if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+
         getSprite().playAnimation(assets.playerDeathAnimation, 160.milliseconds)
         getSprite().onAnimationCompleted {
             Log().info { "player removed after death" }
             removeFromParent()
+        }
+
+        parent?.fastForEachChild {
+            if (it is AcidSlime) {
+                it.removeAllComponents()
+            }
         }
     }
 
@@ -61,3 +73,4 @@ open class Player(
         isDead = false
     }
 }
+
