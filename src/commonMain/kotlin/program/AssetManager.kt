@@ -1,5 +1,6 @@
 package program
 
+import com.soywiz.klock.milliseconds
 import com.soywiz.korau.sound.Sound
 import com.soywiz.korge.particle.ParticleEmitter
 import com.soywiz.korge.tiled.TiledMap
@@ -23,7 +24,7 @@ class AssetManager : InjectorAsyncDependency {
     lateinit var pickupSfx: Sound
 
     lateinit var playerBitmap: Bitmap
-    lateinit var playerDeathBitmap: Bitmap
+    lateinit var playerDeathAnimBitmap: Bitmap
     lateinit var playerWalkBitmap: Bitmap
 
     lateinit var slimeBitmap: Bitmap
@@ -34,6 +35,7 @@ class AssetManager : InjectorAsyncDependency {
     lateinit var starbeamParticle: ParticleEmitter
 
     lateinit var playerIdleAnimation: SpriteAnimation
+    lateinit var playerDeathAnimation: SpriteAnimation
     lateinit var playerWalkRightAnimation: SpriteAnimation
     lateinit var playerWalkLeftAnimation: SpriteAnimation
 
@@ -50,6 +52,7 @@ class AssetManager : InjectorAsyncDependency {
         levels[1u] = resourcesVfs["${dirs["maps"]}/acid001.tmx"].readTiledMap()
 
         playerBitmap = resourcesVfs["${dirs["graphics"]}/player_01.png"].readBitmap()
+        playerDeathAnimBitmap = resourcesVfs["${dirs["graphics"]}/player_die.png"].readBitmap()
         playerWalkBitmap = playerBitmap
 
         slimeBitmap = resourcesVfs["${dirs["graphics"]}/acid_01.png"].readBitmap()
@@ -83,6 +86,15 @@ class AssetManager : InjectorAsyncDependency {
             marginTop = 0,
             marginLeft = 0,
             columns = 3,
+            rows = 1
+        )
+        playerDeathAnimation = SpriteAnimation(
+            spriteMap = playerDeathAnimBitmap.clone(),
+            spriteWidth = 16,
+            spriteHeight = 16,
+            marginTop = 0,
+            marginLeft = 0,
+            columns = 5,
             rows = 1
         )
     }

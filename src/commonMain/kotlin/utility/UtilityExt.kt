@@ -1,12 +1,17 @@
 package utility
 
+import com.soywiz.kds.iterators.fastForEachWithIndex
 import components.movement.MoveDirection
 import com.soywiz.klock.TimeSpan
+import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
-import com.soywiz.korge.view.HitTestDirection
-import com.soywiz.korge.view.View
+import com.soywiz.korge.view.*
+import com.soywiz.korge.view.filter.IdentityFilter.Companion.smoothing
+import com.soywiz.korge.view.tiles.TileMap
+import com.soywiz.korge.view.tiles.tileMap
 import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.Rectangle
+import com.soywiz.korma.geom.Size
 import com.soywiz.korma.geom.SizeInt
 import com.soywiz.korma.geom.shape.Shape2d
 import program.Log
@@ -110,4 +115,30 @@ fun TiledMapView.rectHitTest(rect: Rectangle, direction: HitTestDirection = HitT
         }
     }
     return null
+}
+
+fun TiledMapView.recreateTileLayers(smoothing: Boolean) {
+    fastForEachChild {
+        if (it is TileMap) {
+            it.removeFromParent()
+        }
+    }
+    tiledMap.allLayers.fastForEachWithIndex { _, layer ->
+        if (layer is TiledMap.Layer.Tiles) {
+            val view: View = tileMap(
+                map = layer.map,
+                tileset = tileset,
+                smoothing = smoothing,
+                orientation = tiledMap.data.orientation,
+                staggerAxis = tiledMap.data.staggerAxis,
+                staggerIndex = tiledMap.data.staggerIndex,
+                tileSize = Size(tiledMap.tilewidth.toDouble(), tiledMap.tileheight.toDouble()),
+            )
+            view.visible(layer.visible)
+                .name(layer.name.takeIf { it.isNotEmpty() })
+                .xy(layer.offsetx, layer.offsety)
+                .alpha(layer.opacity)
+                .also { it.addProps(layer.properties) }
+        }
+    }
 }

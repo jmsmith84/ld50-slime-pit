@@ -4,6 +4,7 @@ import com.soywiz.korge.scene.Module
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.*
+import components.SlimeFactory
 import containers.player.Player
 import scenes.GameScene
 import scenes.MenuScene
@@ -29,5 +30,6 @@ open class DefaultAppModule(override val title: String = "KorGE Boot Game", wind
         mapPrototype { GameScene() }
         mapPrototype { MenuScene(title) }
         mapPrototype { Player(Sprite(assets.playerBitmap), get(), get(), get()) }
+        mapPrototype { SlimeFactory(get(), get(), get()) }
     }
 }

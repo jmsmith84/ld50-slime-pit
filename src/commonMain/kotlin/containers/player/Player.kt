@@ -1,9 +1,11 @@
 package containers.player
 
+import com.soywiz.klock.milliseconds
 import com.soywiz.korge.component.attach
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.onCollision
+import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korio.dynamic.dyn
 import com.soywiz.korma.geom.Point
 import components.collision.MovesWithTilemapCollision
@@ -13,10 +15,8 @@ import components.movement.ClampMovement
 import containers.SpriteEntity
 import containers.bullet.EnemyBullet
 import containers.enemy.Enemy
-import program.AssetManager
-import program.GameState
-import program.LevelManager
-import program.SoundManager
+import kotlinx.coroutines.Dispatchers
+import program.*
 
 const val PLAYER_NAME = "PLAYER"
 
@@ -31,10 +31,10 @@ open class Player(
 
     init {
         name = PLAYER_NAME
-        HorizontalMoveInput(this).attach()
-        VerticalMoveInput(this).attach()
-        ClampMovement(this, Point(2.0, 2.0)).attach()
-        MovesWithTilemapCollision(this, levelManager).attach()
+        addComponent(HorizontalMoveInput(this))
+        addComponent(VerticalMoveInput(this)).attach()
+        addComponent(ClampMovement(this, Point(2.0, 2.0)))
+        addComponent(MovesWithTilemapCollision(this, levelManager))
 
         onCollision {
             if (it is Enemy || it is EnemyBullet) {
@@ -46,15 +46,15 @@ open class Player(
         }
     }
 
-    open fun damage(value: UInt = 1u) {
-        hp -= value
-        if (hp == 0u) kill()
-    }
-
-    open fun kill() {
+    override fun kill() {
+        if (isDead) return
         isDead = true
         GameState.timeAlive = 0.0
-        removeFromParent()
+        getSprite().playAnimation(assets.playerDeathAnimation, 160.milliseconds)
+        getSprite().onAnimationCompleted {
+            Log().info { "player removed after death" }
+            removeFromParent()
+        }
     }
 
     override fun reset() {

@@ -3,6 +3,7 @@ package containers.enemy
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.onCollision
 import com.soywiz.korge.view.position
+import com.soywiz.korma.geom.IPoint
 import com.soywiz.korma.geom.XY
 import containers.SpriteEntity
 import containers.bullet.PlayerBullet
@@ -14,7 +15,7 @@ abstract class SpriteEnemy(
     assets: AssetManager,
     soundManager: SoundManager,
     levelManager: LevelManager,
-    position: XY
+    position: IPoint
 ) : SpriteEntity(sprite, assets, soundManager, levelManager), Enemy {
     protected open val value = 100
 
@@ -25,16 +26,6 @@ abstract class SpriteEnemy(
 
     init {
         position(position)
-        onCollision {
-            if (it is PlayerBullet) {
-                it.removeFromParent()
-                hp--
-                if (hp == 0u) {
-                    this@SpriteEnemy.kill()
-                }
-            }
-        }
-
         Log().debug { "Enemy created @ $position" }
     }
 }

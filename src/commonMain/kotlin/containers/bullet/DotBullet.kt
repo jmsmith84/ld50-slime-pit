@@ -20,7 +20,8 @@ open class DotBullet(
     bulletRect: RectBase,
     spawn: XY,
     target: XY,
-    private val shotSpeed: Double = 200.0
+    private val shotSpeed: Double = 200.0,
+    override val damageValue: UInt = 1u
 ) : GameEntity(assets, soundManager, levelManager), Bullet {
     init {
         val angle = Angle.between(spawn, target)

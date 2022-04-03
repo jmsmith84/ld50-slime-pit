@@ -10,6 +10,8 @@ import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.position
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
+import components.GameEntityFactory
+import components.SlimeFactory
 import containers.GameEntity
 import containers.player.Player
 import containers.spawn.SlimeSpawner
@@ -23,12 +25,14 @@ open class GameScene : Scene() {
     protected lateinit var mapView: TiledMapView
     protected lateinit var player: Player
     protected lateinit var levelManager: LevelManager
+    private lateinit var slimeFactory: GameEntityFactory
 
     override suspend fun Container.sceneInit() {
         config = injector.get()
         assets = injector.get()
         soundManager = injector.get()
         levelManager = injector.get()
+        slimeFactory = injector.get<SlimeFactory>()
 
         Log.setLevel(config.getLogLevel())
         views.gameWindow.fullscreen = config.getFullscreenOnStart()
@@ -59,7 +63,7 @@ open class GameScene : Scene() {
         mapView.y = 0.0
         GameState.score = 0
 
-        mapView.forEachChild {
+        mapView.fastForEachChild {
             if (it is GameEntity && it !is Player) {
                 it.removeFromParent()
             }
@@ -70,7 +74,7 @@ open class GameScene : Scene() {
             player.position(it.x, it.y)
         }
         getTiledMapObjects("slime_spawn")?.forEach {
-            mapView.addChild(SlimeSpawner(assets, soundManager, levelManager, Point(it.x, it.y)))
+            mapView.addChild(SlimeSpawner(assets, soundManager, levelManager, slimeFactory, Point(it.x, it.y)))
         }
 
         Log().debug { "Player spawn @ ${player.pos}" }

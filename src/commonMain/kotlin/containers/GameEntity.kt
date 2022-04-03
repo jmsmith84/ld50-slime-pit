@@ -19,6 +19,17 @@ open class GameEntity(
     val move = Point(0, 0)
     lateinit var image: BaseImage
 
+    fun getHP(): UInt {
+        return hp
+    }
+
+    open fun damage(amount: UInt = 1u) {
+        if (amount > hp) hp = 0u else hp -= amount
+        if (hp == 0u) kill()
+    }
+
+    open fun kill() {}
+
     fun getCurrentBounds(): Rectangle {
         return getGlobalBounds()
     }

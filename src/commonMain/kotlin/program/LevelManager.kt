@@ -5,24 +5,23 @@ import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.addTo
-import com.soywiz.korge.view.collidesWith
-import com.soywiz.korge.view.collidesWithShape
 import com.soywiz.korma.geom.Point
-import com.soywiz.korma.geom.Rectangle
 import com.soywiz.korma.geom.XY
-import com.soywiz.korma.geom.shape.Shape2d
-import containers.enemy.AcidSlime
+import utility.recreateTileLayers
 
 class LevelManager(private val assets: AssetManager) {
-    var mapView: TiledMapView? = null
-    var smoothing = false
+    private var mapView: TiledMapView? = null
     private var currentLevel: UShort = 0u
     private var currentMap: TiledMap? = null
+    private val emptyTileId = 0
+
+    var smoothing = false
+    //private var mapWallTileLayer: Layer
 
     fun setNewMap(level: UShort, container: Container, callback: TiledMapView.() -> Unit = {}): TiledMapView {
         currentLevel = level
-        currentMap = assets.levels[level]
-        mapView?.removeFromParent()
+        currentMap = assets.levels[level]?.clone()
+        //map
         return createMapView(container, callback)
     }
 
@@ -44,38 +43,41 @@ class LevelManager(private val assets: AssetManager) {
         container: Container,
         callback: TiledMapView.() -> Unit = {}
     ): TiledMapView {
+        mapView?.removeFromParent()
         mapView = TiledMapView(getCurrentMap(), false, smoothing)
             .addTo(container, callback)
         return mapView!!
     }
 
     fun globalXYToTileXY(x: Double, y: Double): XY {
-        return Point((x / currentMap!!.tilewidth).toIntFloor(),
-            (y / currentMap!!.tileheight).toIntFloor())
+        return Point(
+            (x / currentMap!!.tilewidth).toIntFloor(),
+            (y / currentMap!!.tileheight).toIntFloor()
+        )
+    }
+
+    fun getTileIdAt(x: Int, y: Int): Int? {
+        if (x < 0 || y < 0 || x >= currentMap?.tileLayers?.get(0)?.width!! || y >= currentMap?.tileLayers?.get(0)?.height!!) {
+            return null
+        }
+        return currentMap?.tileLayers?.get(0)?.get(x, y)
+    }
+
+    fun setTileIdAt(x: Int, y: Int, tileId: Int) {
+        if (x < 0 || y < 0 || x >= currentMap?.tileLayers?.get(0)?.width!! || y >= currentMap?.tileLayers?.get(0)?.height!!) {
+            throw RuntimeException("Trying to set map tile $x,$y is out of bounds")
+        }
+        currentMap?.tileLayers?.get(0)?.set(x, y, tileId)
+        mapView?.recreateTileLayers(false)
     }
 
     fun isTileEmpty(x: Int, y: Int): Boolean {
         if (currentMap === null) return true
 
-        val tile = currentMap?.tileLayers?.get(0)?.get(x, y)
-        Log().info { "tile find ${tile}"}
-        if (tile === null) return true
-        if (tile > 0) return false
-
-        val tileBounds = Rectangle(
-            x * currentMap!!.tilewidth,
-            y * currentMap!!.tileheight,
-            currentMap!!.tilewidth,
-            currentMap!!.tileheight
-        )
-
-        getCurrentMapView().fastForEachChild {
-            if (it is AcidSlime) {
-                if (it.getCurrentBounds().intersects(tileBounds)) {
-                    return true
-                }
-            }
-        }
-        return false
+        val tile = getTileIdAt(x, y)
+        Log().info { "tile find ${tile}" }
+        if (tile === null) return false
+        return (tile == emptyTileId)
     }
+
 }

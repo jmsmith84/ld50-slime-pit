@@ -1,3 +1,5 @@
 package containers.bullet
 
-interface Bullet
+interface Bullet {
+    val damageValue: UInt
+}
