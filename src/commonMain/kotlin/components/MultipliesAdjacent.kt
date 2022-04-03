@@ -14,9 +14,9 @@ import kotlin.reflect.KClass
 
 enum class WallTileStatus(val id: Int) {
     GONE(0),
-    NORMAL(1),
-    DAMAGED(2),
-    ALMOST_DESTROYED(3);
+    NORMAL(2),
+    DAMAGED(3),
+    ALMOST_DESTROYED(4);
 }
 
 class MultipliesAdjacent(
@@ -46,7 +46,7 @@ class MultipliesAdjacent(
     }
 
     private fun damageTile(tileXY: IPoint, tileId: Int) {
-        Log().info { "$tileXY - tile damaged"}
+        Log().debug { "$tileXY - tile damaged $tileId"}
         val newId = when (mapIdToType(tileId)) {
             WallTileStatus.NORMAL -> WallTileStatus.DAMAGED.id
             WallTileStatus.DAMAGED -> WallTileStatus.ALMOST_DESTROYED.id
