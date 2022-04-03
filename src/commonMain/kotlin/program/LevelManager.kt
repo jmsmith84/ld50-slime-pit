@@ -64,9 +64,11 @@ class LevelManager(private val assets: AssetManager) {
     }
 
     fun setTileIdAt(x: Int, y: Int, tileId: Int) {
+        if (currentMap?.tileLayers?.get(0)?.get(x, y) == tileId) return
         if (x < 0 || y < 0 || x >= currentMap?.tileLayers?.get(0)?.width!! || y >= currentMap?.tileLayers?.get(0)?.height!!) {
             throw RuntimeException("Trying to set map tile $x,$y is out of bounds")
         }
+
         currentMap?.tileLayers?.get(0)?.set(x, y, tileId)
         mapView?.recreateTileLayers(false)
     }

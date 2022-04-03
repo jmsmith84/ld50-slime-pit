@@ -36,7 +36,7 @@ open class Player(
         name = PLAYER_NAME
 
         addComponent(HorizontalMoveInput(this))
-        addComponent(VerticalMoveInput(this)).attach()
+        addComponent(VerticalMoveInput(this))
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
         addComponent(MovesWithTilemapCollision(this, levelManager))
 
@@ -54,6 +54,8 @@ open class Player(
         if (isDead) return
         isDead = true
         GameState.hiTimeAlive = if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+
+        removeAllComponents()
 
         getSprite().playAnimation(assets.playerDeathAnimation, 160.milliseconds)
         getSprite().onAnimationCompleted {
