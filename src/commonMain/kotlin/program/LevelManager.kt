@@ -20,8 +20,7 @@ class LevelManager(private val assets: AssetManager) {
 
     fun setNewMap(level: UShort, container: Container, callback: TiledMapView.() -> Unit = {}): TiledMapView {
         currentLevel = level
-        currentMap = assets.levels[level]?.clone()
-        //map
+        currentMap = assets.levels[level] //?.clone()
         return createMapView(container, callback)
     }
 
@@ -35,7 +34,7 @@ class LevelManager(private val assets: AssetManager) {
     }
 
     fun getCurrentMapView(): TiledMapView {
-        if (currentMap === null) throw RuntimeException("Trying to get current map view when there isn't one.")
+        if (mapView === null) throw RuntimeException("Trying to get current map view when there isn't one.")
         return mapView!!
     }
 

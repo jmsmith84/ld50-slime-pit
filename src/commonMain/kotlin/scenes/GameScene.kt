@@ -1,17 +1,14 @@
 package scenes
 
+import com.soywiz.klock.seconds
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
-import com.soywiz.korge.view.Container
-import com.soywiz.korge.view.addUpdater
-import com.soywiz.korge.view.position
-import com.soywiz.korge.view.text
+import com.soywiz.korge.view.*
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
-import com.soywiz.korma.math.roundDecimalPlaces
 import components.GameEntityFactory
 import components.SlimeFactory
 import containers.GameEntity
@@ -19,7 +16,6 @@ import containers.player.Player
 import containers.spawn.SlimeSpawner
 import program.*
 import utility.getSecondsDisplay
-import kotlin.math.roundToInt
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class GameScene : Scene() {
@@ -117,8 +113,21 @@ open class GameScene : Scene() {
     }
 
     override suspend fun Container.sceneMain() {
-        addUpdater {
-            GameState.hiTimeAlive = if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+        addFixedUpdater(0.1.seconds) {
+            GameState.hiTimeAlive =
+                if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+        }
+        addFixedUpdater(1.0.seconds) {
+            levelManager.getCurrentMapView().sortChildrenBy(Comparator { a, b ->
+                if (a is Player) {
+                    if (b !is Player) return@Comparator 1
+                    return@Comparator 0
+                } else if (b is Player) {
+                    return@Comparator -1
+                } else {
+                    return@Comparator 0
+                }
+            })
         }
     }
 }

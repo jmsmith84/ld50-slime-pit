@@ -34,6 +34,7 @@ open class Player(
 
     init {
         name = PLAYER_NAME
+
         addComponent(HorizontalMoveInput(this))
         addComponent(VerticalMoveInput(this)).attach()
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
