@@ -3,7 +3,9 @@ package program
 import com.soywiz.korau.sound.Sound
 import com.soywiz.korge.particle.ParticleEmitter
 import com.soywiz.korge.tiled.TiledMap
-import com.soywiz.korge.tiled.readTiledMap
+import com.soywiz.korge.tiled.TiledMapData
+import com.soywiz.korge.tiled.readTiledMapData
+import com.soywiz.korge.tiled.readTiledSet
 import com.soywiz.korge.view.SolidRect
 import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korim.bitmap.Bitmap
@@ -16,11 +18,11 @@ import com.soywiz.korinject.InjectorAsyncDependency
 import com.soywiz.korio.file.std.resourcesVfs
 
 class AssetManager : InjectorAsyncDependency {
-    lateinit var levels: MutableMap<UShort, TiledMap>
+    lateinit var tileSets: MutableList<TiledMap.TiledTileset>
+    lateinit var levels: MutableMap<UShort, TiledMapData>
     lateinit var defaultFont: Font
 
     lateinit var music01: Sound
-    lateinit var pickupSfx: Sound
 
     lateinit var playerBitmap: Bitmap
     lateinit var playerDeathAnimBitmap: Bitmap
@@ -47,8 +49,7 @@ class AssetManager : InjectorAsyncDependency {
 
         defaultFont = resourcesVfs["${dirs["fonts"]}/DOTMATRI.TTF"].readFont()
 
-        levels = mutableMapOf()
-        levels[1u] = resourcesVfs["${dirs["maps"]}/acid001.tmx"].readTiledMap()
+        buildTiledMapData(dirs)
 
         playerBitmap = resourcesVfs["${dirs["graphics"]}/player_01.png"].readBitmap()
         playerDeathAnimBitmap = resourcesVfs["${dirs["graphics"]}/player_die.png"].readBitmap()
@@ -57,6 +58,15 @@ class AssetManager : InjectorAsyncDependency {
         slimeBitmap = resourcesVfs["${dirs["graphics"]}/acid_01.png"].readBitmap()
 
         buildSpriteAnimations()
+    }
+
+    private suspend fun buildTiledMapData(dirs: Map<String, String>) {
+        tileSets = mutableListOf(
+            resourcesVfs["${dirs["maps"]}/acid_tiles.tsx"].readTiledSet()
+        )
+
+        levels = mutableMapOf()
+        levels[1u] = resourcesVfs["${dirs["maps"]}/acid001.tmx"].readTiledMapData()
     }
 
     private fun buildSpriteAnimations() {

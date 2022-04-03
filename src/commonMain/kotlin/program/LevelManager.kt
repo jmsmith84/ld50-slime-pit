@@ -16,12 +16,12 @@ class LevelManager(private val assets: AssetManager) {
     private val emptyTileId = 0
 
     var smoothing = false
-    //private var mapWallTileLayer: Layer
 
     fun setNewMap(level: UShort, container: Container, callback: TiledMapView.() -> Unit = {}): TiledMapView {
         currentLevel = level
-        currentMap = assets.levels[level] //?.clone()
-        return createMapView(container, callback)
+        if (assets.levels[level] === null) throw RuntimeException("Selected level not found in assets")
+        currentMap = TiledMap(assets.levels[level]!!.clone(), assets.tileSets)
+        return createMapView(currentMap!!, container, callback)
     }
 
     fun getLevel(): UShort {
@@ -29,21 +29,22 @@ class LevelManager(private val assets: AssetManager) {
     }
 
     fun getCurrentMap(): TiledMap {
-        if (currentMap === null) throw RuntimeException("Trying to get current level map when there isn't one.")
+        if (currentMap === null) throw RuntimeException("Trying to get current level map when there isn't one")
         return currentMap!!
     }
 
     fun getCurrentMapView(): TiledMapView {
-        if (mapView === null) throw RuntimeException("Trying to get current map view when there isn't one.")
+        if (mapView === null) throw RuntimeException("Trying to get current map view when there isn't one")
         return mapView!!
     }
 
     private fun createMapView(
+        map: TiledMap,
         container: Container,
         callback: TiledMapView.() -> Unit = {}
     ): TiledMapView {
         mapView?.removeFromParent()
-        mapView = TiledMapView(getCurrentMap(), false, smoothing)
+        mapView = TiledMapView(map, false, smoothing)
             .addTo(container, callback)
         return mapView!!
     }
