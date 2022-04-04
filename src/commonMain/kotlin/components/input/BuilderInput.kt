@@ -1,6 +1,7 @@
 package components.input
 
 import com.soywiz.klock.milliseconds
+import com.soywiz.korau.sound.Sound
 import com.soywiz.korev.Key
 import com.soywiz.korge.component.Component
 import com.soywiz.korge.input.keys
@@ -15,6 +16,7 @@ import components.movement.MoveDirection
 import containers.player.Player
 import program.LevelManager
 import program.Log
+import program.SoundManager
 import utility.timer.EventTimer
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -23,8 +25,10 @@ class BuilderInput(
     override val view: Player,
     val key: Key,
     private val levelManager: LevelManager,
+    private val soundManager: SoundManager,
     wallBuildingAnimation: SpriteAnimation,
     private val playerBuildingAnimation: SpriteAnimation? = null,
+    private val wallBuiltSound: Sound? = null
 ) : Component {
     private val buildTime: Duration = 2.38.seconds
     private var wallSprite: Sprite
@@ -63,6 +67,8 @@ class BuilderInput(
                     stopBuilding()
                     if (!levelManager.isTileEmpty(tileXY)) return@newCallback
                     levelManager.setTileIdAt(tileXY.x.toInt(), tileXY.y.toInt(), WallTileStatus.WOOD_NORMAL.id)
+
+                    if (wallBuiltSound !== null) soundManager.asyncPlaySound(wallBuiltSound)
                 }
                 builderTimer.setLength(buildTime / view.speedModifier)
                 builderTimer.restart()

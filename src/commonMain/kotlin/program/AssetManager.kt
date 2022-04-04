@@ -1,6 +1,7 @@
 package program
 
 import com.soywiz.korau.sound.Sound
+import com.soywiz.korau.sound.readSound
 import com.soywiz.korge.particle.ParticleEmitter
 import com.soywiz.korge.particle.readParticleEmitter
 import com.soywiz.korge.tiled.TiledMap
@@ -21,9 +22,13 @@ import com.soywiz.korio.file.std.resourcesVfs
 class AssetManager : InjectorAsyncDependency {
     lateinit var tileSets: MutableList<TiledMap.TiledTileset>
     lateinit var levels: MutableMap<UShort, TiledMapData>
-    lateinit var music: MutableMap<UShort, Sound>
+    //lateinit var music: MutableMap<UShort, Sound>
 
     lateinit var defaultFont: Font
+
+    lateinit var wallDoneSfx: Sound
+    lateinit var playerDieSfx: Sound
+    lateinit var speedUpSfx: Sound
 
     lateinit var playerBitmap: Bitmap
     private lateinit var playerDeathAnimBitmap: Bitmap
@@ -70,6 +75,10 @@ class AssetManager : InjectorAsyncDependency {
 
         slimyEmitter = resourcesVfs["${dirs["particles"]}/slimy/particle.pex"].readParticleEmitter()
 
+        wallDoneSfx = resourcesVfs["${dirs["audio"]}/chunk.wav"].readSound()
+        playerDieSfx = resourcesVfs["${dirs["audio"]}/sizzle.wav"].readSound()
+        speedUpSfx = resourcesVfs["${dirs["audio"]}/bwah.wav"].readSound()
+
         buildSpriteAnimations()
     }
 
@@ -84,7 +93,7 @@ class AssetManager : InjectorAsyncDependency {
         levels[3u] = resourcesVfs["${dirs["maps"]}/acid003.tmx"].readTiledMapData()
         levels[4u] = resourcesVfs["${dirs["maps"]}/acid004.tmx"].readTiledMapData()
 
-        music = mutableMapOf()
+        //music = mutableMapOf()
     }
 
     private fun buildSpriteAnimations() {

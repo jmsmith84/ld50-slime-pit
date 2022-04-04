@@ -66,7 +66,7 @@ open class GameScene : Scene() {
             font = assets.defaultFont
             position(10, views.virtualHeight - 20)
             addUpdater {
-                text = "${GameState.timeAlive.getSecondsDisplay()} SECONDS"
+                text = "${GameState.timeAlive[levelManager.getLevel()]?.getSecondsDisplay()} SECONDS"
             }
         }
         text("HI 0 SECONDS") {
@@ -74,7 +74,7 @@ open class GameScene : Scene() {
             font = assets.defaultFont
             position(views.virtualWidth - 90, views.virtualHeight - 20)
             addUpdater {
-                text = "HI ${GameState.hiTimeAlive.getSecondsDisplay()}"
+                text = "HI ${GameState.hiTimeAlive[levelManager.getLevel()]?.getSecondsDisplay()}"
             }
         }
     }
@@ -88,7 +88,7 @@ open class GameScene : Scene() {
     protected fun resetGame() {
         levelManager.getMapView().x = 0.0
         levelManager.getMapView().y = 0.0
-        GameState.timeAlive = 0.0
+        GameState.timeAlive[levelManager.getLevel()] = 0.0
 
         levelManager.getMapView().fastForEachChild {
             if (it is GameEntity && it !is Player) {
@@ -117,8 +117,10 @@ open class GameScene : Scene() {
 
     override suspend fun Container.sceneMain() {
         addFixedUpdater(0.1.seconds) {
-            GameState.hiTimeAlive =
-                if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+            GameState.hiTimeAlive.set(levelManager.getLevel(),
+                if (GameState.timeAlive[levelManager.getLevel()]!! > GameState.hiTimeAlive[levelManager.getLevel()]!!)
+                    GameState.timeAlive[levelManager.getLevel()]!! else GameState.hiTimeAlive[levelManager.getLevel()]!!
+            )
         }
         addFixedUpdater(1.0.seconds) {
             levelManager.getMapView().sortChildrenBy(

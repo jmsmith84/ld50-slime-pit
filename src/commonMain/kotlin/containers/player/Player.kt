@@ -34,10 +34,16 @@ open class Player(
     private val builderComponent: BuilderInput = BuilderInput(this,
         Key.Z,
         levelManager,
+        soundManager,
         assets.wallBuildingAnimation,
-        assets.playerBuildingAnimation)
+        assets.playerBuildingAnimation,
+        assets.wallDoneSfx)
     private var facingComponent: HasFacing = HasFacing(this)
     private val initialHp = hp
+    private val speedUpTimer: EventTimer = EventTimer(this, 5.0.seconds) {
+        this@Player.speedModifier = 1.0
+        it.destroy()
+    }.attach()
     var isDead = false
 
     init {
@@ -58,10 +64,8 @@ open class Player(
                     when (it) {
                         is SpeedPotion -> {
                             this@Player.speedModifier = 2.0
-                            EventTimer(this@Player, 5.0.seconds) {
-                                this@Player.speedModifier = 1.0
-                                it.destroy()
-                            }.attach().start()
+                            speedUpTimer.restart()
+                            soundManager.asyncPlaySound(assets.speedUpSfx)
                         }
                     }
                 }
@@ -69,7 +73,12 @@ open class Player(
         }
         addUpdater {
             if (!isDead) {
-                GameState.timeAlive += it.seconds
+                val timeAlive = if (GameState.timeAlive[levelManager.getLevel()] === null)
+                    0.0 else GameState.timeAlive[levelManager.getLevel()]!!
+                GameState.timeAlive.set(
+                    levelManager.getLevel(),
+                    timeAlive + it.seconds
+                )
                 if (!isMoving() && !builderComponent.builderTimer.isRunning()) {
                     getSprite().playAnimation(assets.playerIdleAnimation)
                 }
@@ -80,8 +89,9 @@ open class Player(
     override fun kill() {
         if (isDead) return
         isDead = true
-        GameState.hiTimeAlive =
-            if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+        GameState.hiTimeAlive[levelManager.getLevel()] =
+            if (GameState.timeAlive[levelManager.getLevel()]!! > GameState.hiTimeAlive[levelManager.getLevel()]!!)
+                GameState.timeAlive[levelManager.getLevel()]!! else GameState.hiTimeAlive[levelManager.getLevel()]!!
 
         removeAllComponents()
 
@@ -90,6 +100,7 @@ open class Player(
             Log().info { "player removed after death" }
             removeFromParent()
         }
+        soundManager.asyncPlaySound(assets.playerDieSfx)
 
         parent?.fastForEachChild {
             if (it is AcidSlime) {
