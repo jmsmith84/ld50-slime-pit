@@ -60,7 +60,7 @@ open class GameEntity(
     }
 
     fun isMoving(): Boolean {
-        return move.y > 0.0
+        return !getMoveDirections().contains(MoveDirection.NONE)
     }
 
     fun getMoveDirections(): Set<MoveDirection> {

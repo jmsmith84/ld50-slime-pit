@@ -42,6 +42,8 @@ class AssetManager : InjectorAsyncDependency {
     lateinit var playerDeathAnimation: SpriteAnimation
     lateinit var playerWalkRightAnimation: SpriteAnimation
     lateinit var playerWalkLeftAnimation: SpriteAnimation
+    lateinit var playerWalkUpAnimation: SpriteAnimation
+    lateinit var playerWalkDownAnimation: SpriteAnimation
     lateinit var playerBuildingAnimation: SpriteAnimation
 
     lateinit var wallBuildingAnimation: SpriteAnimation
@@ -58,7 +60,9 @@ class AssetManager : InjectorAsyncDependency {
         playerBitmap = resourcesVfs["${dirs["graphics"]}/player_01.png"].readBitmap()
         playerDeathAnimBitmap = resourcesVfs["${dirs["graphics"]}/player_die.png"].readBitmap()
         playerBuildBitmap = resourcesVfs["${dirs["graphics"]}/player_build.png"].readBitmap()
-        playerWalkRightBitmap = playerBitmap
+        playerWalkRightBitmap = resourcesVfs["${dirs["graphics"]}/player_walk_r.png"].readBitmap()
+        playerWalkUpBitmap = resourcesVfs["${dirs["graphics"]}/player_walk_u.png"].readBitmap()
+        playerWalkDownBitmap = resourcesVfs["${dirs["graphics"]}/player_walk_d.png"].readBitmap()
 
         slimeBitmap = resourcesVfs["${dirs["graphics"]}/acid_01.png"].readBitmap()
         wallBuildBitmap = resourcesVfs["${dirs["graphics"]}/wall_build.png"].readBitmap()
@@ -77,7 +81,7 @@ class AssetManager : InjectorAsyncDependency {
         levels = mutableMapOf()
         levels[1u] = resourcesVfs["${dirs["maps"]}/acid001.tmx"].readTiledMapData()
         levels[2u] = resourcesVfs["${dirs["maps"]}/acid002.tmx"].readTiledMapData()
-        //levels[3u] = resourcesVfs["${dirs["maps"]}/acid003.tmx"].readTiledMapData()
+        levels[3u] = resourcesVfs["${dirs["maps"]}/acid003.tmx"].readTiledMapData()
         //levels[4u] = resourcesVfs["${dirs["maps"]}/acid004.tmx"].readTiledMapData()
 
         music = mutableMapOf()
@@ -86,8 +90,8 @@ class AssetManager : InjectorAsyncDependency {
     private fun buildSpriteAnimations() {
         playerIdleAnimation = SpriteAnimation(
             spriteMap = playerBitmap,
-            spriteWidth = 16,
-            spriteHeight = 16,
+            spriteWidth = 12,
+            spriteHeight = 15,
             marginTop = 0,
             marginLeft = 0,
             columns = 1,
@@ -95,26 +99,44 @@ class AssetManager : InjectorAsyncDependency {
         )
         playerWalkRightAnimation = SpriteAnimation(
             spriteMap = playerWalkRightBitmap,
-            spriteWidth = 16,
-            spriteHeight = 16,
+            spriteWidth = 12,
+            spriteHeight = 15,
             marginTop = 0,
             marginLeft = 0,
-            columns = 3,
+            columns = 2,
             rows = 1
         )
         playerWalkLeftAnimation = SpriteAnimation(
             spriteMap = playerWalkRightBitmap.clone().flipX(),
-            spriteWidth = 16,
-            spriteHeight = 16,
+            spriteWidth = 12,
+            spriteHeight = 15,
             marginTop = 0,
             marginLeft = 0,
-            columns = 3,
+            columns = 2,
+            rows = 1
+        )
+        playerWalkUpAnimation = SpriteAnimation(
+            spriteMap = playerWalkUpBitmap,
+            spriteWidth = 12,
+            spriteHeight = 15,
+            marginTop = 0,
+            marginLeft = 0,
+            columns = 2,
+            rows = 1
+        )
+        playerWalkDownAnimation = SpriteAnimation(
+            spriteMap = playerWalkDownBitmap,
+            spriteWidth = 12,
+            spriteHeight = 15,
+            marginTop = 0,
+            marginLeft = 0,
+            columns = 2,
             rows = 1
         )
         playerDeathAnimation = SpriteAnimation(
             spriteMap = playerDeathAnimBitmap,
-            spriteWidth = 16,
-            spriteHeight = 16,
+            spriteWidth = 12,
+            spriteHeight = 15,
             marginTop = 0,
             marginLeft = 0,
             columns = 5,
@@ -122,8 +144,8 @@ class AssetManager : InjectorAsyncDependency {
         )
         playerBuildingAnimation = SpriteAnimation(
             spriteMap = playerBuildBitmap,
-            spriteWidth = 16,
-            spriteHeight = 16,
+            spriteWidth = 14,
+            spriteHeight = 15,
             marginTop = 0,
             marginLeft = 0,
             columns = 2,

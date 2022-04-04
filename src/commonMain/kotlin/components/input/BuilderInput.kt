@@ -27,8 +27,8 @@ class BuilderInput(
     private val playerBuildingAnimation: SpriteAnimation? = null,
 ) : Component {
     private val buildTime: Duration = 2.38.seconds
-    private var builderTimer: EventTimer = EventTimer(view, buildTime) {}
     private var wallSprite: Sprite
+    var builderTimer: EventTimer = EventTimer(view, buildTime) {}
 
     init {
         view.addComponent(builderTimer)

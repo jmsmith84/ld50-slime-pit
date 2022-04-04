@@ -31,6 +31,11 @@ open class Player(
     soundManager: SoundManager,
     levelManager: LevelManager,
 ) : SpriteEntity(sprite, assets, soundManager, levelManager) {
+    private val builderComponent: BuilderInput = BuilderInput(this,
+        Key.Z,
+        levelManager,
+        assets.wallBuildingAnimation,
+        assets.playerBuildingAnimation)
     private var facingComponent: HasFacing = HasFacing(this)
     private val initialHp = hp
     var isDead = false
@@ -38,13 +43,9 @@ open class Player(
     init {
         name = PLAYER_NAME
 
-        addComponent(HorizontalMoveInput(this))
-        addComponent(VerticalMoveInput(this))
-        addComponent(BuilderInput(this,
-            Key.Z,
-            levelManager,
-            assets.wallBuildingAnimation,
-            assets.playerBuildingAnimation))
+        addComponent(HorizontalMoveInput(this, assets.playerWalkLeftAnimation, assets.playerWalkRightAnimation))
+        addComponent(VerticalMoveInput(this, assets.playerWalkUpAnimation, assets.playerWalkDownAnimation))
+        addComponent(builderComponent)
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
         addComponent(facingComponent)
         addComponent(MovesWithTilemapCollision(this, levelManager))
@@ -67,7 +68,12 @@ open class Player(
             }
         }
         addUpdater {
-            if (!isDead) GameState.timeAlive += it.seconds else return@addUpdater
+            if (!isDead) {
+                GameState.timeAlive += it.seconds
+                if (!isMoving() && !builderComponent.builderTimer.isRunning()) {
+                    getSprite().playAnimation(assets.playerIdleAnimation)
+                }
+            } else return@addUpdater
         }
     }
 

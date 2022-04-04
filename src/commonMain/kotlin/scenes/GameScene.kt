@@ -133,7 +133,8 @@ open class GameScene : Scene() {
                 }
             )
         }
-        addFixedUpdater(5.0.seconds) {
+        addFixedUpdater(10.0.seconds) {
+            if (player.isDead) return@addFixedUpdater
             if (Random.nextInt(1, 7) > 1) {
                 return@addFixedUpdater
             }
