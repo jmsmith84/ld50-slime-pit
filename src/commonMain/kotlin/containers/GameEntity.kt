@@ -17,6 +17,7 @@ open class GameEntity(
     protected var hp: UInt = 1u
 ) : Container() {
     val move = Point(0, 0)
+    var canMove = true
     lateinit var image: BaseImage
 
     fun getHP(): UInt {

@@ -1,5 +1,6 @@
 package program
 
+import com.soywiz.klock.seconds
 import com.soywiz.korau.sound.Sound
 import com.soywiz.korge.particle.ParticleEmitter
 import com.soywiz.korge.tiled.TiledMap
@@ -29,6 +30,7 @@ class AssetManager : InjectorAsyncDependency {
     lateinit var playerWalkBitmap: Bitmap
 
     lateinit var slimeBitmap: Bitmap
+    lateinit var wallBuildBitmap: Bitmap
 
     lateinit var bulletRect: SolidRect
     lateinit var enemyBulletRect: SolidRect
@@ -39,6 +41,8 @@ class AssetManager : InjectorAsyncDependency {
     lateinit var playerDeathAnimation: SpriteAnimation
     lateinit var playerWalkRightAnimation: SpriteAnimation
     lateinit var playerWalkLeftAnimation: SpriteAnimation
+    lateinit var playerBuildingAnimation: SpriteAnimation
+    lateinit var wallBuildingAnimation: SpriteAnimation
 
     override suspend fun init(injector: AsyncInjector) {
         val config = injector.get<Config>()
@@ -56,6 +60,7 @@ class AssetManager : InjectorAsyncDependency {
         playerWalkBitmap = playerBitmap
 
         slimeBitmap = resourcesVfs["${dirs["graphics"]}/acid_01.png"].readBitmap()
+        wallBuildBitmap = resourcesVfs["${dirs["graphics"]}/wall_build.png"].readBitmap()
 
         buildSpriteAnimations()
     }
@@ -98,12 +103,30 @@ class AssetManager : InjectorAsyncDependency {
             rows = 1
         )
         playerDeathAnimation = SpriteAnimation(
-            spriteMap = playerDeathAnimBitmap.clone(),
+            spriteMap = playerDeathAnimBitmap,
             spriteWidth = 16,
             spriteHeight = 16,
             marginTop = 0,
             marginLeft = 0,
             columns = 5,
+            rows = 1
+        )
+        playerBuildingAnimation = SpriteAnimation(
+            spriteMap = playerBitmap,
+            spriteWidth = 16,
+            spriteHeight = 16,
+            marginTop = 0,
+            marginLeft = 0,
+            columns = 1,
+            rows = 1
+        )
+        wallBuildingAnimation = SpriteAnimation(
+            spriteMap = wallBuildBitmap,
+            spriteWidth = 16,
+            spriteHeight = 16,
+            marginTop = 0,
+            marginLeft = 0,
+            columns = 3,
             rows = 1
         )
     }

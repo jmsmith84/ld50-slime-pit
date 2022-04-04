@@ -3,6 +3,7 @@ package utility.timer
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.baseview.BaseView
 import com.soywiz.korge.component.UpdateComponent
+import program.Log
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
@@ -48,6 +49,7 @@ open class SimpleTimer(override val view: BaseView, val length: Duration) : Time
 
     override fun update(dt: TimeSpan) {
         if (isRunning && !isFinished()) {
+            Log().debug { "timer running $secondsLeft"}
             secondsLeft -= dt.seconds
             if (isFinished()) finish()
         }

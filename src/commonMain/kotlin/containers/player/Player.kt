@@ -1,16 +1,12 @@
 package containers.player
 
 import com.soywiz.klock.milliseconds
-import com.soywiz.korge.component.Component
-import com.soywiz.korge.component.attach
 import com.soywiz.korge.view.Sprite
-import com.soywiz.korge.view.View
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.onCollision
-import com.soywiz.korio.dynamic.dyn
 import com.soywiz.korma.geom.Point
-import components.MultipliesAdjacent
 import components.collision.MovesWithTilemapCollision
+import components.input.BuilderInput
 import components.input.HorizontalMoveInput
 import components.input.VerticalMoveInput
 import components.movement.ClampMovement
@@ -19,7 +15,6 @@ import containers.bullet.EnemyBullet
 import containers.enemy.AcidSlime
 import containers.enemy.Enemy
 import program.*
-import kotlin.reflect.KClass
 
 const val PLAYER_NAME = "PLAYER"
 
@@ -37,6 +32,7 @@ open class Player(
 
         addComponent(HorizontalMoveInput(this))
         addComponent(VerticalMoveInput(this))
+        addComponent(BuilderInput(this, levelManager, assets.wallBuildingAnimation))
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
         addComponent(MovesWithTilemapCollision(this, levelManager))
 
