@@ -83,7 +83,7 @@ open class LevelSelectScene(private val fontsize: Double = 24.0) : Scene() {
             textSize = fontsize
             font = uiFont
             centerOnStage()
-            y += 50
+            y += 70
             addUpdater {
                 color = when (selection) {
                     LevelMenuOptions.BACK -> selectedColor
@@ -97,6 +97,7 @@ open class LevelSelectScene(private val fontsize: Double = 24.0) : Scene() {
                 Key.ENTER -> chooseOption()
                 Key.UP -> cursorUp()
                 Key.DOWN -> cursorDown()
+                Key.ESCAPE -> back()
                 else -> Unit
             }
         }

@@ -2,6 +2,7 @@ package scenes
 
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
+import com.soywiz.korge.particle.particleEmitter
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
@@ -25,9 +26,12 @@ open class MenuScene(private val title: String, private val fontsize: Double = 2
         assets = injector.get()
 
         val uiFont = assets.defaultFont
+        particleEmitter(assets.slimyEmitter)
+                .position(views.virtualWidth * 0.5, 20.0)
 
         text(title) {
             font = uiFont
+            color = Colors.BLACK
             y = 24.0
             centerXOnStage()
         }
