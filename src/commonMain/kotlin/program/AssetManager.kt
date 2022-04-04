@@ -26,7 +26,10 @@ class AssetManager : InjectorAsyncDependency {
 
     lateinit var playerBitmap: Bitmap
     lateinit var playerDeathAnimBitmap: Bitmap
-    lateinit var playerWalkBitmap: Bitmap
+    lateinit var playerWalkRightBitmap: Bitmap
+    lateinit var playerWalkDownBitmap: Bitmap
+    lateinit var playerWalkUpBitmap: Bitmap
+    lateinit var playerBuildBitmap: Bitmap
 
     lateinit var slimeBitmap: Bitmap
     lateinit var wallBuildBitmap: Bitmap
@@ -56,7 +59,8 @@ class AssetManager : InjectorAsyncDependency {
 
         playerBitmap = resourcesVfs["${dirs["graphics"]}/player_01.png"].readBitmap()
         playerDeathAnimBitmap = resourcesVfs["${dirs["graphics"]}/player_die.png"].readBitmap()
-        playerWalkBitmap = playerBitmap
+        playerBuildBitmap = resourcesVfs["${dirs["graphics"]}/player_build.png"].readBitmap()
+        playerWalkRightBitmap = playerBitmap
 
         slimeBitmap = resourcesVfs["${dirs["graphics"]}/acid_01.png"].readBitmap()
         wallBuildBitmap = resourcesVfs["${dirs["graphics"]}/wall_build.png"].readBitmap()
@@ -84,7 +88,7 @@ class AssetManager : InjectorAsyncDependency {
             rows = 1
         )
         playerWalkRightAnimation = SpriteAnimation(
-            spriteMap = playerWalkBitmap,
+            spriteMap = playerWalkRightBitmap,
             spriteWidth = 16,
             spriteHeight = 16,
             marginTop = 0,
@@ -93,7 +97,7 @@ class AssetManager : InjectorAsyncDependency {
             rows = 1
         )
         playerWalkLeftAnimation = SpriteAnimation(
-            spriteMap = playerWalkBitmap.clone().flipX(),
+            spriteMap = playerWalkRightBitmap.clone().flipX(),
             spriteWidth = 16,
             spriteHeight = 16,
             marginTop = 0,
@@ -111,12 +115,12 @@ class AssetManager : InjectorAsyncDependency {
             rows = 1
         )
         playerBuildingAnimation = SpriteAnimation(
-            spriteMap = playerBitmap,
+            spriteMap = playerBuildBitmap,
             spriteWidth = 16,
             spriteHeight = 16,
             marginTop = 0,
             marginLeft = 0,
-            columns = 1,
+            columns = 2,
             rows = 1
         )
         wallBuildingAnimation = SpriteAnimation(

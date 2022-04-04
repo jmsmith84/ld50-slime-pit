@@ -25,7 +25,7 @@ open class Player(
     sprite: Sprite,
     assets: AssetManager,
     soundManager: SoundManager,
-    levelManager: LevelManager
+    levelManager: LevelManager,
 ) : SpriteEntity(sprite, assets, soundManager, levelManager) {
     private var facingComponent: HasFacing = HasFacing(this)
     private val initialHp = hp
@@ -36,7 +36,11 @@ open class Player(
 
         addComponent(HorizontalMoveInput(this))
         addComponent(VerticalMoveInput(this))
-        addComponent(BuilderInput(this, Key.Z, levelManager, assets.wallBuildingAnimation))
+        addComponent(BuilderInput(this,
+            Key.Z,
+            levelManager,
+            assets.wallBuildingAnimation,
+            assets.playerBuildingAnimation))
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
         addComponent(facingComponent)
         addComponent(MovesWithTilemapCollision(this, levelManager))
@@ -54,7 +58,8 @@ open class Player(
     override fun kill() {
         if (isDead) return
         isDead = true
-        GameState.hiTimeAlive = if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
+        GameState.hiTimeAlive =
+            if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
 
         removeAllComponents()
 
@@ -79,6 +84,10 @@ open class Player(
 
     fun getFacing(): MoveDirection {
         return facingComponent.getFacing()
+    }
+
+    fun resetSpriteImage() {
+        getSprite().playAnimation(assets.playerIdleAnimation)
     }
 }
 

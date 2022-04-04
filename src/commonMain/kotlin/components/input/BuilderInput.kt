@@ -11,7 +11,6 @@ import com.soywiz.korge.view.position
 import com.soywiz.korma.geom.centerX
 import com.soywiz.korma.geom.centerY
 import components.ai.WallTileStatus
-import components.movement.HasFacing
 import components.movement.MoveDirection
 import containers.player.Player
 import program.LevelManager
@@ -65,7 +64,10 @@ class BuilderInput(
                 }
                 builderTimer.restart()
             }
-            if (playerBuildingAnimation !== null) view.getSprite().playAnimationLooped(playerBuildingAnimation)
+            if (playerBuildingAnimation !== null) view.getSprite().playAnimationLooped(
+                playerBuildingAnimation,
+                150.milliseconds
+            )
         }
         view.keys.up {
             if (it.key == key) {
@@ -75,10 +77,11 @@ class BuilderInput(
         }
     }
 
-        private fun stopBuilding() {
-            builderTimer.stop()
-            view.canMove = true
-            wallSprite.stopAnimation()
-            wallSprite.removeFromParent()
-        }
+    private fun stopBuilding() {
+        builderTimer.stop()
+        view.canMove = true
+        wallSprite.stopAnimation()
+        wallSprite.removeFromParent()
+        view.resetSpriteImage()
     }
+}
