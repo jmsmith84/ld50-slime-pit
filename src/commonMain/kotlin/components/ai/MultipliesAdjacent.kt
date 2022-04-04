@@ -1,4 +1,4 @@
-package components
+package components.ai
 
 import com.soywiz.kds.iterators.fastForEach
 import com.soywiz.klock.TimeSpan
@@ -8,6 +8,7 @@ import com.soywiz.korma.geom.IPoint
 import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.XY
 import containers.GameEntity
+import factories.GameEntityFactory
 import program.LevelManager
 import program.Log
 import kotlin.reflect.KClass

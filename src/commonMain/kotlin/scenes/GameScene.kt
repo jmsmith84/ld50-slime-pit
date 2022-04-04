@@ -9,11 +9,11 @@ import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.*
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
-import components.GameEntityFactory
-import components.SlimeFactory
 import containers.GameEntity
 import containers.player.Player
 import containers.spawn.SlimeSpawner
+import factories.GameEntityFactory
+import factories.SlimeFactory
 import program.*
 import utility.getSecondsDisplay
 
@@ -118,16 +118,18 @@ open class GameScene : Scene() {
                 if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
         }
         addFixedUpdater(1.0.seconds) {
-            levelManager.getCurrentMapView().sortChildrenBy(Comparator { a, b ->
-                if (a is Player) {
-                    if (b !is Player) return@Comparator 1
-                    return@Comparator 0
-                } else if (b is Player) {
-                    return@Comparator -1
-                } else {
-                    return@Comparator 0
+            levelManager.getCurrentMapView().sortChildrenBy(
+                Comparator { a, b ->
+                    if (a is Player) {
+                        if (b !is Player) return@Comparator 1
+                        return@Comparator 0
+                    } else if (b is Player) {
+                        return@Comparator -1
+                    } else {
+                        return@Comparator 0
+                    }
                 }
-            })
+            )
         }
     }
 }

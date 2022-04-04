@@ -1,6 +1,7 @@
 package containers.player
 
 import com.soywiz.klock.milliseconds
+import com.soywiz.korev.Key
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.onCollision
@@ -32,7 +33,7 @@ open class Player(
 
         addComponent(HorizontalMoveInput(this))
         addComponent(VerticalMoveInput(this))
-        addComponent(BuilderInput(this, levelManager, assets.wallBuildingAnimation))
+        addComponent(BuilderInput(this, Key.Z, levelManager, assets.wallBuildingAnimation))
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
         addComponent(MovesWithTilemapCollision(this, levelManager))
 

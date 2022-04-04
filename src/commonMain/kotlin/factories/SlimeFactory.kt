@@ -1,4 +1,4 @@
-package components
+package factories
 
 import com.soywiz.korma.geom.IPoint
 import containers.GameEntity

@@ -4,8 +4,8 @@ import com.soywiz.klock.seconds
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korma.geom.IPoint
 import com.soywiz.korma.geom.Point
-import components.MultipliesAdjacent
-import components.SlimeFactory
+import components.ai.MultipliesAdjacent
+import factories.SlimeFactory
 import program.AssetManager
 import program.LevelManager
 import program.SoundManager

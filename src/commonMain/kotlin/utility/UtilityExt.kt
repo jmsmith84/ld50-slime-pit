@@ -2,6 +2,7 @@ package utility
 
 import com.soywiz.kds.iterators.fastForEachWithIndex
 import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.milliseconds
 import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.*
@@ -146,3 +147,4 @@ fun TiledMapView.recreateTileLayers(smoothing: Boolean) {
 fun Double.getSecondsDisplay(): String {
     return roundDecimalPlaces(1).toString().padStart(6, '0').padEnd(6, '0')
 }
+

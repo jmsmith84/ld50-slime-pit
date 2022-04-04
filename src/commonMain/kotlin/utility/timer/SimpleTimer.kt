@@ -3,6 +3,7 @@ package utility.timer
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.baseview.BaseView
 import com.soywiz.korge.component.UpdateComponent
+import com.soywiz.korge.component.attach
 import program.Log
 import kotlin.time.Duration
 import kotlin.time.DurationUnit

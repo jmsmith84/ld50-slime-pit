@@ -5,10 +5,12 @@ import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.addTo
+import com.soywiz.korma.geom.IPoint
 import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.XY
 import utility.recreateTileLayers
 
+@Suppress("MemberVisibilityCanBePrivate")
 class LevelManager(private val assets: AssetManager) {
     private var mapView: TiledMapView? = null
     private var currentLevel: UShort = 0u
@@ -49,11 +51,26 @@ class LevelManager(private val assets: AssetManager) {
         return mapView!!
     }
 
-    fun globalXYToTileXY(x: Double, y: Double): XY {
+    fun globalXYToTileXY(x: Double, y: Double): IPoint {
         return Point(
             (x / currentMap!!.tilewidth).toIntFloor(),
             (y / currentMap!!.tileheight).toIntFloor()
         )
+    }
+
+    fun globalXYToTileXY(xy: IPoint): IPoint {
+        return globalXYToTileXY(xy.x, xy.y)
+    }
+
+    fun tileXYToGlobalXY(x: Int, y: Int): IPoint {
+        return Point(
+            (x * currentMap!!.tilewidth),
+            (y * currentMap!!.tileheight)
+        )
+    }
+
+    fun tileXYToGlobalXY(xy: IPoint): IPoint {
+        return tileXYToGlobalXY(xy.x.toInt(), xy.y.toInt())
     }
 
     fun getTileIdAt(x: Int, y: Int): Int? {
@@ -77,9 +94,13 @@ class LevelManager(private val assets: AssetManager) {
         if (currentMap === null) return true
 
         val tile = getTileIdAt(x, y)
-        Log().info { "tile find ${tile}" }
+        Log().debug { "tile find ID:$tile" }
         if (tile === null) return false
         return (tile == emptyTileId)
+    }
+
+    fun isTileEmpty(xy: IPoint): Boolean {
+        return isTileEmpty(xy.x.toInt(), xy.y.toInt())
     }
 
 }

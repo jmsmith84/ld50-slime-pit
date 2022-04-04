@@ -2,7 +2,7 @@ package containers.spawn
 
 import com.soywiz.korge.view.position
 import com.soywiz.korma.geom.XY
-import components.GameEntityFactory
+import factories.GameEntityFactory
 import containers.GameEntity
 import program.AssetManager
 import program.LevelManager
