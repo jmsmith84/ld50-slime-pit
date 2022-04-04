@@ -39,7 +39,7 @@ class LevelManager(private val assets: AssetManager) {
             1.toUShort() -> "WOT A DODDLE"
             2.toUShort() -> "E.Z. WHEEZY"
             3.toUShort() -> "MILK CITY"
-            4.toUShort() -> "M.U.D.U.L."
+            4.toUShort() -> "ALPHAVILLE"
             else -> { "LEVEL ??" }
         }
     }
