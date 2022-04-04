@@ -8,10 +8,8 @@ import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapData
 import com.soywiz.korge.tiled.readTiledMapData
 import com.soywiz.korge.tiled.readTiledSet
-import com.soywiz.korge.view.SolidRect
 import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korim.bitmap.Bitmap
-import com.soywiz.korim.color.Colors
 import com.soywiz.korim.font.Font
 import com.soywiz.korim.font.readFont
 import com.soywiz.korim.format.readBitmap

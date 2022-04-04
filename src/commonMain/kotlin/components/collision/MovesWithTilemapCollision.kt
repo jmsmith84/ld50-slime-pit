@@ -6,7 +6,8 @@ import com.soywiz.korge.view.HitTestDirection
 import containers.GameEntity
 import program.LevelManager
 import program.Log
-import utility.*
+import utility.getDeltaScale
+import utility.viewHitTest
 import kotlin.math.round
 
 class MovesWithTilemapCollision(

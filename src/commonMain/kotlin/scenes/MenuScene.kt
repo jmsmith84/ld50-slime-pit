@@ -8,7 +8,6 @@ import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
 import program.AssetManager
-import program.LevelManager
 
 enum class MainMenuOptions {
     START_GAME,

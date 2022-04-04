@@ -3,7 +3,7 @@ package components.collision
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.component.UpdateComponent
 import containers.GameEntity
-import utility.*
+import utility.getDeltaScale
 
 class MovesWithoutTilemapCollision(
     override val view: GameEntity

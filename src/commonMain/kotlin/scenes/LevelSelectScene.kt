@@ -3,7 +3,10 @@ package scenes
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
-import com.soywiz.korge.view.*
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.addUpdater
+import com.soywiz.korge.view.centerOnStage
+import com.soywiz.korge.view.text
 import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launchImmediately
 import program.AssetManager

@@ -1,15 +1,8 @@
 package program
 
 import com.soywiz.korge.scene.Module
-import com.soywiz.korge.view.Sprite
-import com.soywiz.korim.color.Colors
-import com.soywiz.korim.color.RGBA
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.*
-import containers.player.Player
-import factories.PotionFactory
-import factories.SlimeFactory
-import scenes.GameScene
 import scenes.MenuScene
 
 open class DefaultAppModule(override val title: String = "KorGE Boot Game", windowScale: Double = 2.0) : Module() {
