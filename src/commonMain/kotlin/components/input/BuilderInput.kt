@@ -40,10 +40,10 @@ class BuilderInput(
                 val bounds = view.getBounds()
 
                 when (view.getFacing()) {
-                    MoveDirection.UP -> playerPosition.add(bounds.centerX, bounds.top - 1)
-                    MoveDirection.DOWN -> playerPosition.add(bounds.centerX, bounds.bottom + 1)
-                    MoveDirection.LEFT -> playerPosition.add(bounds.left - 1, bounds.centerY)
-                    MoveDirection.RIGHT -> playerPosition.add(bounds.right + 1, bounds.centerY)
+                    MoveDirection.UP -> playerPosition.add(bounds.centerX, bounds.top - (bounds.height / 2))
+                    MoveDirection.DOWN -> playerPosition.add(bounds.centerX, bounds.bottom + (bounds.height / 2))
+                    MoveDirection.LEFT -> playerPosition.add(bounds.left - (bounds.width / 2), bounds.centerY)
+                    MoveDirection.RIGHT -> playerPosition.add(bounds.right + (bounds.width / 2), bounds.centerY)
                     else -> {}
                 }
 
@@ -60,7 +60,7 @@ class BuilderInput(
                 builderTimer.newCallback {
                     stopBuilding()
                     if (!levelManager.isTileEmpty(tileXY)) return@newCallback
-                    levelManager.setTileIdAt(tileXY.x.toInt(), tileXY.y.toInt(), WallTileStatus.NORMAL.id)
+                    levelManager.setTileIdAt(tileXY.x.toInt(), tileXY.y.toInt(), WallTileStatus.WOOD_NORMAL.id)
                 }
                 builderTimer.restart()
             }

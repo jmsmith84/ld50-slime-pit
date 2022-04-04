@@ -29,6 +29,14 @@ class LevelManager(private val assets: AssetManager) {
         return currentLevel
     }
 
+    fun getLevelName(): String {
+        return when (currentLevel) {
+            1.toUShort() -> "WOT A DODDLE"
+            2.toUShort() -> "E.Z. WEEZY"
+            else -> { "LEVEL ??" }
+        }
+    }
+
     fun getCurrentMap(): TiledMap {
         if (currentMap === null) throw RuntimeException("Trying to get current level map when there isn't one")
         return currentMap!!

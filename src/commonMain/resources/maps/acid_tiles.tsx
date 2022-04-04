@@ -4,4 +4,9 @@
  <tile id="1" type="collision"/>
  <tile id="2" type="collision"/>
  <tile id="3" type="collision"/>
+ <tile id="11" type="collision"/>
+ <tile id="12" type="collision"/>
+ <tile id="13" type="collision"/>
+ <tile id="14" type="collision"/>
+ <tile id="15" type="collision"/>
 </tileset>

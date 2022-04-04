@@ -15,9 +15,14 @@ import kotlin.reflect.KClass
 
 enum class WallTileStatus(val id: Int) {
     GONE(0),
-    NORMAL(2),
-    DAMAGED(3),
-    ALMOST_DESTROYED(4);
+    WOOD_NORMAL(2),
+    WOOD_DAMAGED(3),
+    WOOD_ALMOST_DESTROYED(4),
+    STONE_NORMAL(12),
+    STONE_SLIGHTLY_DAMAGED(13),
+    STONE_DAMAGED(14),
+    STONE_VERY_DAMAGED(15),
+    STONE_ALMOST_DESTROYED(16);
 }
 
 class MultipliesAdjacent(
@@ -49,9 +54,14 @@ class MultipliesAdjacent(
     private fun damageTile(tileXY: IPoint, tileId: Int) {
         Log().debug { "$tileXY - tile damaged $tileId"}
         val newId = when (mapIdToType(tileId)) {
-            WallTileStatus.NORMAL -> WallTileStatus.DAMAGED.id
-            WallTileStatus.DAMAGED -> WallTileStatus.ALMOST_DESTROYED.id
-            WallTileStatus.ALMOST_DESTROYED -> WallTileStatus.GONE.id
+            WallTileStatus.WOOD_NORMAL -> WallTileStatus.WOOD_DAMAGED.id
+            WallTileStatus.WOOD_DAMAGED -> WallTileStatus.WOOD_ALMOST_DESTROYED.id
+            WallTileStatus.WOOD_ALMOST_DESTROYED -> WallTileStatus.GONE.id
+            WallTileStatus.STONE_NORMAL -> WallTileStatus.STONE_SLIGHTLY_DAMAGED.id
+            WallTileStatus.STONE_SLIGHTLY_DAMAGED -> WallTileStatus.STONE_DAMAGED.id
+            WallTileStatus.STONE_DAMAGED -> WallTileStatus.STONE_VERY_DAMAGED.id
+            WallTileStatus.STONE_VERY_DAMAGED -> WallTileStatus.STONE_ALMOST_DESTROYED.id
+            WallTileStatus.STONE_ALMOST_DESTROYED -> WallTileStatus.GONE.id
             else -> WallTileStatus.GONE.id
         }
         levelManager.setTileIdAt(tileXY.x.toInt(), tileXY.y.toInt(), newId)

@@ -14,7 +14,6 @@ import components.movement.ClampMovement
 import components.movement.HasFacing
 import components.movement.MoveDirection
 import containers.SpriteEntity
-import containers.bullet.EnemyBullet
 import containers.enemy.AcidSlime
 import containers.enemy.Enemy
 import program.*
@@ -46,7 +45,7 @@ open class Player(
         addComponent(MovesWithTilemapCollision(this, levelManager))
 
         onCollision {
-            if (it is Enemy || it is EnemyBullet) {
+            if (it is Enemy) {
                 damage()
             }
         }

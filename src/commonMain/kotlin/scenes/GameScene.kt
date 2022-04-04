@@ -51,12 +51,12 @@ open class GameScene : Scene() {
             }
         }
 
-        text("LEVEL 01") {
+        text("LEVEL") {
             textSize = 18.0
             font = assets.defaultFont
             position(10, views.virtualHeight - 40)
             addUpdater {
-                text = "LEVEL " + levelManager.getLevel().toString().padStart(2, '0')
+                text = levelManager.getLevelName()
             }
         }
         text("0 SECONDS") {

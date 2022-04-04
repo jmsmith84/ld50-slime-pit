@@ -3,7 +3,6 @@ package components.movement
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.component.UpdateComponent
 import containers.GameEntity
-import program.Log
 
 @Suppress("MemberVisibilityCanBePrivate")
 class HasFacing(
@@ -16,7 +15,6 @@ class HasFacing(
         val directions = view.getMoveDirections()
 
         // Priority order: l+r > u+d
-        Log().info { directions }
         if (directions.contains(MoveDirection.RIGHT)) {
             facing = MoveDirection.RIGHT
         } else if (directions.contains(MoveDirection.LEFT)) {
