@@ -18,4 +18,8 @@ apply<KorgeGradlePlugin>()
 
 korge {
 	id = "com.redhue.korgeboot"
+
+	targetJvm()
+	targetJs()
+	targetDesktop()
 }
