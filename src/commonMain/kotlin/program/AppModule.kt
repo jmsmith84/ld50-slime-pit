@@ -9,7 +9,7 @@ import scenes.GameScene
 import scenes.LevelSelectScene
 import scenes.MenuScene
 
-object AppModule : DefaultAppModule("ACID BATH") {
+object AppModule : DefaultAppModule("SLIME BATH") {
     override suspend fun AsyncInjector.configure() {
         val assets = AssetManager()
 
