@@ -39,13 +39,11 @@ class BuilderInput(
             if (!builderTimer.isRunning()) {
                 val playerPosition = view.pos.copy()
                 val bounds = view.getBounds()
-                val tilewidth = levelManager.getCurrentMap().tilewidth.toDouble()
-                val tileheight = levelManager.getCurrentMap().tileheight.toDouble()
 
                 when (view.getFacing()) {
-                    MoveDirection.UP -> playerPosition.add(bounds.centerX, -tilewidth)
+                    MoveDirection.UP -> playerPosition.add(bounds.centerX, bounds.top - 1)
                     MoveDirection.DOWN -> playerPosition.add(bounds.centerX, bounds.bottom + 1)
-                    MoveDirection.LEFT -> playerPosition.add(-tileheight, bounds.centerY)
+                    MoveDirection.LEFT -> playerPosition.add(bounds.left - 1, bounds.centerY)
                     MoveDirection.RIGHT -> playerPosition.add(bounds.right + 1, bounds.centerY)
                     else -> {}
                 }
