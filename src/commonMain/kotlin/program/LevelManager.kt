@@ -37,9 +37,9 @@ class LevelManager(private val assets: AssetManager) {
     fun getLevelName(level: UShort = currentLevel): String {
         return when (level) {
             1.toUShort() -> "WOT A DODDLE"
-            2.toUShort() -> "E.Z. WEEZY"
-            3.toUShort() -> "ABC"
-            4.toUShort() -> "EEEE"
+            2.toUShort() -> "E.Z. WHEEZY"
+            3.toUShort() -> "MILK CITY"
+            4.toUShort() -> "M.U.D.U.L."
             else -> { "LEVEL ??" }
         }
     }
