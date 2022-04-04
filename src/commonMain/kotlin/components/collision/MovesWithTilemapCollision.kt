@@ -17,7 +17,7 @@ class MovesWithTilemapCollision(
         val delta = getDeltaScale(dt)
         val mapView = levelManager.getCurrentMapView()
 
-        if (view.move.isMovingLeft() || view.move.isMovingRight()) {
+        if (view.isMovingLeft() || view.isMovingRight()) {
             val oldX = view.x
             view.x += round(view.move.x * delta)
 
@@ -26,13 +26,13 @@ class MovesWithTilemapCollision(
             ) {
                 Log().debug { "map hit X " + view.pos }
 
-                if (view.move.isMovingLeft()) {
+                if (view.isMovingLeft()) {
                     while (mapView.viewHitTest(view, HitTestDirection.LEFT) !== null
                         && view.x < oldX
                     ) {
                         view.x += 1.0
                     }
-                } else if (view.move.isMovingRight()) {
+                } else if (view.isMovingRight()) {
                     while (mapView.viewHitTest(view, HitTestDirection.RIGHT) !== null
                         && view.x > oldX
                     ) {
@@ -43,7 +43,7 @@ class MovesWithTilemapCollision(
             }
         }
 
-        if (view.move.isMovingUp() || view.move.isMovingDown()) {
+        if (view.isMovingUp() || view.isMovingDown()) {
             val oldY = view.y
             view.y += round(view.move.y * delta)
 
@@ -52,13 +52,13 @@ class MovesWithTilemapCollision(
             ) {
                 Log().debug { "map hit Y " + view.pos }
 
-                if (view.move.isMovingUp()) {
+                if (view.isMovingUp()) {
                     while (mapView.viewHitTest(view, HitTestDirection.UP) !== null
                         && view.y < oldY
                     ) {
                         view.y += 1.0
                     }
-                } else if (view.move.isMovingDown()) {
+                } else if (view.isMovingDown()) {
                     while (mapView.viewHitTest(view, HitTestDirection.DOWN) !== null
                         && view.y > oldY
                     ) {

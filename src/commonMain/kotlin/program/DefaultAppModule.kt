@@ -4,8 +4,8 @@ import com.soywiz.korge.scene.Module
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.*
-import factories.SlimeFactory
 import containers.player.Player
+import factories.SlimeFactory
 import scenes.GameScene
 import scenes.MenuScene
 

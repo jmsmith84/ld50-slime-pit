@@ -3,13 +3,16 @@ package components.input
 import com.soywiz.klock.milliseconds
 import com.soywiz.korev.Key
 import com.soywiz.korge.component.Component
-import com.soywiz.korge.component.attach
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.SpriteAnimation
 import com.soywiz.korge.view.addTo
 import com.soywiz.korge.view.position
+import com.soywiz.korma.geom.centerX
+import com.soywiz.korma.geom.centerY
 import components.ai.WallTileStatus
+import components.movement.HasFacing
+import components.movement.MoveDirection
 import containers.player.Player
 import program.LevelManager
 import program.Log
@@ -34,7 +37,19 @@ class BuilderInput(
             Log().debug { "Z down" }
 
             if (!builderTimer.isRunning()) {
-                val playerPosition = view.pos.copy().add(0.0, -16.0)
+                val playerPosition = view.pos.copy()
+                val bounds = view.getBounds()
+                val tilewidth = levelManager.getCurrentMap().tilewidth.toDouble()
+                val tileheight = levelManager.getCurrentMap().tileheight.toDouble()
+
+                when (view.getFacing()) {
+                    MoveDirection.UP -> playerPosition.add(bounds.centerX, -tilewidth)
+                    MoveDirection.DOWN -> playerPosition.add(bounds.centerX, bounds.bottom + 1)
+                    MoveDirection.LEFT -> playerPosition.add(-tileheight, bounds.centerY)
+                    MoveDirection.RIGHT -> playerPosition.add(bounds.right + 1, bounds.centerY)
+                    else -> {}
+                }
+
                 val tileXY = levelManager.globalXYToTileXY(playerPosition)
                 if (!levelManager.isTileEmpty(tileXY)) return@justDown
 

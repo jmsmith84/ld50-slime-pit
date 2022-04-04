@@ -2,19 +2,16 @@ package utility
 
 import com.soywiz.kds.iterators.fastForEachWithIndex
 import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.milliseconds
 import com.soywiz.korge.tiled.TiledMap
 import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.tiles.TileMap
 import com.soywiz.korge.view.tiles.tileMap
-import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.Rectangle
 import com.soywiz.korma.geom.Size
 import com.soywiz.korma.geom.SizeInt
 import com.soywiz.korma.geom.shape.Shape2d
 import com.soywiz.korma.math.roundDecimalPlaces
-import components.movement.MoveDirection
 import program.Log
 
 operator fun Shape2d.Rectangle.times(scale: Double): Shape2d.Rectangle {
@@ -35,38 +32,6 @@ fun ByteArray.toUInt(): UInt {
         result = result or this[i].toUInt().shl(Byte.SIZE_BITS * i)
     }
     return result
-}
-
-fun Point.isMovingLeft(): Boolean {
-    return x < 0.0
-}
-
-fun Point.isMovingRight(): Boolean {
-    return x > 0.0
-}
-
-fun Point.isMovingUp(): Boolean {
-    return y < 0.0
-}
-
-fun Point.isMovingDown(): Boolean {
-    return y > 0.0
-}
-
-fun Point.getDirections(): Set<MoveDirection> {
-    val set = mutableSetOf<MoveDirection>()
-
-    if (isMovingLeft()) {
-        set.add(MoveDirection.LEFT)
-    } else if (isMovingRight()) {
-        set.add(MoveDirection.RIGHT)
-    }
-    if (isMovingDown()) {
-        set.add(MoveDirection.DOWN)
-    } else if (isMovingUp()) {
-        set.add(MoveDirection.UP)
-    }
-    return set
 }
 
 fun TiledMapView.viewHitTest(view: View, direction: HitTestDirection = HitTestDirection.ANY): View? {

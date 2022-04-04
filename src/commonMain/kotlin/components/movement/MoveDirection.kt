@@ -1,5 +1,5 @@
 package components.movement
 
 enum class MoveDirection {
-    UP, DOWN, LEFT, RIGHT
+    UP, DOWN, LEFT, RIGHT, NONE
 }

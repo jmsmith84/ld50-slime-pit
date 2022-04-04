@@ -11,10 +11,10 @@ class MovesWithoutTilemapCollision(
     override fun update(dt: TimeSpan) {
         val delta = getDeltaScale(dt)
 
-        if (view.move.isMovingLeft() || view.move.isMovingRight()) {
+        if (view.isMovingLeft() || view.isMovingRight()) {
             view.x += view.move.x * delta
         }
-        if (view.move.isMovingUp() || view.move.isMovingDown()) {
+        if (view.isMovingUp() || view.isMovingDown()) {
             view.y += view.move.y * delta
         }
     }

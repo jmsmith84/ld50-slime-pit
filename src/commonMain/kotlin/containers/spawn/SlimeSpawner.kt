@@ -2,8 +2,8 @@ package containers.spawn
 
 import com.soywiz.korge.view.position
 import com.soywiz.korma.geom.XY
-import factories.GameEntityFactory
 import containers.GameEntity
+import factories.GameEntityFactory
 import program.AssetManager
 import program.LevelManager
 import program.SoundManager

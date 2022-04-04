@@ -5,7 +5,6 @@ import com.soywiz.korge.component.UpdateComponent
 import com.soywiz.korma.geom.XY
 import com.soywiz.korma.math.clamp
 import containers.GameEntity
-import program.Log
 
 @Suppress("MemberVisibilityCanBePrivate")
 class ClampMovement(

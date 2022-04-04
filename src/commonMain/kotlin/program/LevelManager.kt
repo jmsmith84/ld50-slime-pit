@@ -7,7 +7,6 @@ import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.addTo
 import com.soywiz.korma.geom.IPoint
 import com.soywiz.korma.geom.Point
-import com.soywiz.korma.geom.XY
 import utility.recreateTileLayers
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -38,6 +37,11 @@ class LevelManager(private val assets: AssetManager) {
     fun getCurrentMapView(): TiledMapView {
         if (mapView === null) throw RuntimeException("Trying to get current map view when there isn't one")
         return mapView!!
+    }
+
+    fun getCurrentMapObjects(): TiledMap.Layer.Objects {
+        if (currentMap === null) throw RuntimeException("Trying to get current level map when there isn't one")
+        return currentMap!!.objectLayers.first()
     }
 
     private fun createMapView(

@@ -5,6 +5,7 @@ import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.HitTestDirection
 import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.Rectangle
+import components.movement.MoveDirection
 import program.AssetManager
 import program.LevelManager
 import program.SoundManager
@@ -39,5 +40,46 @@ open class GameEntity(
         val clone = getCurrentBounds().clone()
         clone.y++
         return levelManager.getCurrentMapView().rectHitTest(clone, HitTestDirection.DOWN) !== null
+    }
+
+    fun isMovingLeft(): Boolean {
+        return move.x < 0.0
+    }
+
+    fun isMovingRight(): Boolean {
+        return move.x > 0.0
+    }
+
+    fun isMovingUp(): Boolean {
+        return move.y < 0.0
+    }
+
+    fun isMovingDown(): Boolean {
+        return move.y > 0.0
+    }
+
+    fun isMoving(): Boolean {
+        return move.y > 0.0
+    }
+
+    fun getMoveDirections(): Set<MoveDirection> {
+        val set = mutableSetOf<MoveDirection>()
+
+        if (!isMovingLeft() && !isMovingRight() && !isMovingUp() && !isMovingDown()) {
+            set.add(MoveDirection.NONE)
+            return set
+        }
+
+        if (isMovingLeft()) {
+            set.add(MoveDirection.LEFT)
+        } else if (isMovingRight()) {
+            set.add(MoveDirection.RIGHT)
+        }
+        if (isMovingDown()) {
+            set.add(MoveDirection.DOWN)
+        } else if (isMovingUp()) {
+            set.add(MoveDirection.UP)
+        }
+        return set
     }
 }

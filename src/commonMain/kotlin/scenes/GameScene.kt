@@ -108,7 +108,7 @@ open class GameScene : Scene() {
     protected fun getTiledMapObjects(type: String): List<TiledMap.Object>? {
         if (levelManager.getCurrentMap().objectLayers.isEmpty()) return null
 
-        val objectLayer = levelManager.getCurrentMap().objectLayers[0]
+        val objectLayer = levelManager.getCurrentMapObjects()
         return objectLayer.objectsByType[type]
     }
 
@@ -125,9 +125,8 @@ open class GameScene : Scene() {
                         return@Comparator 0
                     } else if (b is Player) {
                         return@Comparator -1
-                    } else {
-                        return@Comparator 0
                     }
+                    return@Comparator 0
                 }
             )
         }

@@ -11,6 +11,8 @@ import components.input.BuilderInput
 import components.input.HorizontalMoveInput
 import components.input.VerticalMoveInput
 import components.movement.ClampMovement
+import components.movement.HasFacing
+import components.movement.MoveDirection
 import containers.SpriteEntity
 import containers.bullet.EnemyBullet
 import containers.enemy.AcidSlime
@@ -25,6 +27,7 @@ open class Player(
     soundManager: SoundManager,
     levelManager: LevelManager
 ) : SpriteEntity(sprite, assets, soundManager, levelManager) {
+    private var facingComponent: HasFacing = HasFacing(this)
     private val initialHp = hp
     var isDead = false
 
@@ -35,6 +38,7 @@ open class Player(
         addComponent(VerticalMoveInput(this))
         addComponent(BuilderInput(this, Key.Z, levelManager, assets.wallBuildingAnimation))
         addComponent(ClampMovement(this, Point(2.0, 2.0)))
+        addComponent(facingComponent)
         addComponent(MovesWithTilemapCollision(this, levelManager))
 
         onCollision {
@@ -71,6 +75,10 @@ open class Player(
         super.reset()
         hp = initialHp
         isDead = false
+    }
+
+    fun getFacing(): MoveDirection {
+        return facingComponent.getFacing()
     }
 }
 
