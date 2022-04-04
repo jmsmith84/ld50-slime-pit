@@ -5,7 +5,6 @@ import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.tiled.TiledMap
-import com.soywiz.korge.tiled.TiledMapView
 import com.soywiz.korge.view.*
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
@@ -13,19 +12,22 @@ import containers.GameEntity
 import containers.player.Player
 import containers.spawn.SlimeSpawner
 import factories.GameEntityFactory
+import factories.PotionFactory
 import factories.SlimeFactory
 import program.*
 import utility.getSecondsDisplay
+import kotlin.random.Random
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class GameScene : Scene() {
     protected lateinit var assets: AssetManager
     protected lateinit var soundManager: SoundManager
     protected lateinit var config: Config
-    protected lateinit var mapView: TiledMapView
     protected lateinit var player: Player
     protected lateinit var levelManager: LevelManager
+
     private lateinit var slimeFactory: GameEntityFactory
+    private lateinit var potionFactory: GameEntityFactory
 
     override suspend fun Container.sceneInit() {
         config = injector.get()
@@ -33,16 +35,16 @@ open class GameScene : Scene() {
         soundManager = injector.get()
         levelManager = injector.get()
         slimeFactory = injector.get<SlimeFactory>()
+        potionFactory = injector.get<PotionFactory>()
 
         Log.setLevel(config.getLogLevel())
         views.gameWindow.fullscreen = config.getFullscreenOnStart()
 
-        levelManager.setNewMap(1u, this)
-        mapView = levelManager.getCurrentMapView()
+        levelManager.setNewMap(levelManager.getLevel(), this)
 
         player = injector.get()
         resetGame()
-        mapView.addChild(player)
+        levelManager.getMapView().addChild(player)
 
         keys.down {
             when (it.key) {
@@ -84,11 +86,11 @@ open class GameScene : Scene() {
     }
 
     protected fun resetGame() {
-        mapView.x = 0.0
-        mapView.y = 0.0
+        levelManager.getMapView().x = 0.0
+        levelManager.getMapView().y = 0.0
         GameState.timeAlive = 0.0
 
-        mapView.fastForEachChild {
+        levelManager.getMapView().fastForEachChild {
             if (it is GameEntity && it !is Player) {
                 it.removeFromParent()
             }
@@ -99,16 +101,17 @@ open class GameScene : Scene() {
             player.position(it.x, it.y)
         }
         getTiledMapObjects("slime_spawn")?.forEach {
-            mapView.addChild(SlimeSpawner(assets, soundManager, levelManager, slimeFactory, Point(it.x, it.y)))
+            levelManager.getMapView()
+                .addChild(SlimeSpawner(assets, soundManager, levelManager, slimeFactory, Point(it.x, it.y)))
         }
 
         Log().debug { "Player spawn @ ${player.pos}" }
     }
 
     protected fun getTiledMapObjects(type: String): List<TiledMap.Object>? {
-        if (levelManager.getCurrentMap().objectLayers.isEmpty()) return null
+        if (levelManager.getMap().objectLayers.isEmpty()) return null
 
-        val objectLayer = levelManager.getCurrentMapObjects()
+        val objectLayer = levelManager.getMapObjects()
         return objectLayer.objectsByType[type]
     }
 
@@ -118,7 +121,7 @@ open class GameScene : Scene() {
                 if (GameState.timeAlive > GameState.hiTimeAlive) GameState.timeAlive else GameState.hiTimeAlive
         }
         addFixedUpdater(1.0.seconds) {
-            levelManager.getCurrentMapView().sortChildrenBy(
+            levelManager.getMapView().sortChildrenBy(
                 Comparator { a, b ->
                     if (a is Player) {
                         if (b !is Player) return@Comparator 1
@@ -129,6 +132,20 @@ open class GameScene : Scene() {
                     return@Comparator 0
                 }
             )
+        }
+        addFixedUpdater(5.0.seconds) {
+            if (Random.nextInt(1, 7) > 1) {
+                return@addFixedUpdater
+            }
+
+            val emptyXY = levelManager.getRandomEmptyTile()
+            if (emptyXY != null) {
+                levelManager.getMapView().addChild(
+                    potionFactory.create(
+                        levelManager.tileXYToGlobalXY(emptyXY)
+                    )
+                )
+            }
         }
     }
 }

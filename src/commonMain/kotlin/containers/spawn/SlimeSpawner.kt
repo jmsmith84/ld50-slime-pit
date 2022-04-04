@@ -20,6 +20,6 @@ class SlimeSpawner(
         position(position)
 
         val slime = factory.create(pos.copy())
-        levelManager.getCurrentMapView().addChild(slime)
+        levelManager.getMapView().addChild(slime)
     }
 }

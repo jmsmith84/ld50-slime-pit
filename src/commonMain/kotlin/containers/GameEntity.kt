@@ -19,6 +19,7 @@ open class GameEntity(
 ) : Container() {
     val move = Point(0, 0)
     var canMove = true
+    var speedModifier: Double = 1.0
     lateinit var image: BaseImage
 
     fun getHP(): UInt {
@@ -39,7 +40,7 @@ open class GameEntity(
     fun isTouchingGround(): Boolean {
         val clone = getCurrentBounds().clone()
         clone.y++
-        return levelManager.getCurrentMapView().rectHitTest(clone, HitTestDirection.DOWN) !== null
+        return levelManager.getMapView().rectHitTest(clone, HitTestDirection.DOWN) !== null
     }
 
     fun isMovingLeft(): Boolean {

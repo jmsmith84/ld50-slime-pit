@@ -15,11 +15,11 @@ class MovesWithTilemapCollision(
 ) : UpdateComponent {
     override fun update(dt: TimeSpan) {
         val delta = getDeltaScale(dt)
-        val mapView = levelManager.getCurrentMapView()
+        val mapView = levelManager.getMapView()
 
         if (view.isMovingLeft() || view.isMovingRight()) {
             val oldX = view.x
-            view.x += round(view.move.x * delta)
+            view.x += round(view.move.x * delta * view.speedModifier)
 
             if (mapView.viewHitTest(view, HitTestDirection.LEFT) !== null
                 || mapView.viewHitTest(view, HitTestDirection.RIGHT) !== null
@@ -45,7 +45,7 @@ class MovesWithTilemapCollision(
 
         if (view.isMovingUp() || view.isMovingDown()) {
             val oldY = view.y
-            view.y += round(view.move.y * delta)
+            view.y += round(view.move.y * delta * view.speedModifier)
 
             if (mapView.viewHitTest(view, HitTestDirection.UP) !== null
                 || mapView.viewHitTest(view, HitTestDirection.DOWN) !== null

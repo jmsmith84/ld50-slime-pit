@@ -2,6 +2,7 @@ package containers.player
 
 import com.soywiz.klock.milliseconds
 import com.soywiz.korev.Key
+import com.soywiz.korge.component.attach
 import com.soywiz.korge.view.Sprite
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.onCollision
@@ -16,7 +17,11 @@ import components.movement.MoveDirection
 import containers.SpriteEntity
 import containers.enemy.AcidSlime
 import containers.enemy.Enemy
+import containers.item.GamePickup
+import containers.item.SpeedPotion
 import program.*
+import utility.timer.EventTimer
+import kotlin.time.Duration.Companion.seconds
 
 const val PLAYER_NAME = "PLAYER"
 
@@ -45,8 +50,20 @@ open class Player(
         addComponent(MovesWithTilemapCollision(this, levelManager))
 
         onCollision {
-            if (it is Enemy) {
-                damage()
+            when (it) {
+                is Enemy -> damage()
+                is GamePickup -> {
+                    it.removeFromParent()
+                    when (it) {
+                        is SpeedPotion -> {
+                            this@Player.speedModifier = 2.0
+                            EventTimer(this@Player, 5.0.seconds) {
+                                this@Player.speedModifier = 1.0
+                                it.destroy()
+                            }.attach().start()
+                        }
+                    }
+                }
             }
         }
         addUpdater {

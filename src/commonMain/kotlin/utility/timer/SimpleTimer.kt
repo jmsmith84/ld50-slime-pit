@@ -3,11 +3,12 @@ package utility.timer
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.baseview.BaseView
 import com.soywiz.korge.component.UpdateComponent
+import com.soywiz.korge.component.removeFromView
 import program.Log
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
-open class SimpleTimer(override val view: BaseView, val length: Duration) : Timer, UpdateComponent {
+open class SimpleTimer(override val view: BaseView, private var length: Duration) : Timer, UpdateComponent {
     private var secondsLeft: Double = 0.0
     private var isRunning: Boolean = false
 
@@ -42,6 +43,10 @@ open class SimpleTimer(override val view: BaseView, val length: Duration) : Time
         return this
     }
 
+    override fun destroy() {
+        removeFromView()
+    }
+
     protected open fun finish() {
         secondsLeft = 0.0
         stop()
@@ -53,6 +58,10 @@ open class SimpleTimer(override val view: BaseView, val length: Duration) : Time
             secondsLeft -= dt.seconds
             if (isFinished()) finish()
         }
+    }
+
+    open fun setLength(length: Duration) {
+        this.length = length
     }
 }
 

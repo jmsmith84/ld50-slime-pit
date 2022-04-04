@@ -7,4 +7,5 @@ interface Timer {
     fun isFinished(): Boolean
     fun isRunning(): Boolean
     fun reset(): Timer
+    fun destroy()
 }

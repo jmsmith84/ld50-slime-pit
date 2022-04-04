@@ -16,7 +16,6 @@ enum class MainMenuOptions {
 
 open class MenuScene(private val title: String, private val fontsize: Double = 24.0) : Scene() {
     private lateinit var assets: AssetManager
-    private lateinit var levelManager: LevelManager
 
     private var selection: MainMenuOptions = MainMenuOptions.START_GAME
     private val unselectedColor = Colors.DARKGRAY
@@ -24,7 +23,6 @@ open class MenuScene(private val title: String, private val fontsize: Double = 2
 
     override suspend fun Container.sceneInit() {
         assets = injector.get()
-        levelManager = injector.get()
 
         val uiFont = assets.defaultFont
 
@@ -71,7 +69,7 @@ open class MenuScene(private val title: String, private val fontsize: Double = 2
     private fun chooseOption() {
         when (selection) {
             MainMenuOptions.START_GAME -> launchImmediately {
-                    sceneContainer.changeTo<GameScene>()
+                    sceneContainer.changeTo<LevelSelectScene>()
             }
             MainMenuOptions.QUIT -> exitGame()
         }

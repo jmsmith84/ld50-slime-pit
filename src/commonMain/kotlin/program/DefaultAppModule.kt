@@ -2,9 +2,12 @@ package program
 
 import com.soywiz.korge.scene.Module
 import com.soywiz.korge.view.Sprite
+import com.soywiz.korim.color.Colors
+import com.soywiz.korim.color.RGBA
 import com.soywiz.korinject.AsyncInjector
 import com.soywiz.korma.geom.*
 import containers.player.Player
+import factories.PotionFactory
 import factories.SlimeFactory
 import scenes.GameScene
 import scenes.MenuScene
@@ -20,16 +23,9 @@ open class DefaultAppModule(override val title: String = "KorGE Boot Game", wind
     override val scaleMode = ScaleMode.FIT
 
     override suspend fun AsyncInjector.configure() {
-        val assets = AssetManager()
-
         mapSingleton { SoundManager() }
         mapSingleton { Config() }
         mapSingleton { LevelManager(get()) }
-        mapSingleton { assets }
-
-        mapPrototype { GameScene() }
-        mapPrototype { MenuScene(title) }
-        mapPrototype { Player(Sprite(assets.playerBitmap), get(), get(), get()) }
-        mapPrototype { SlimeFactory(get(), get(), get()) }
+        mapSingleton { AssetManager() }
     }
 }

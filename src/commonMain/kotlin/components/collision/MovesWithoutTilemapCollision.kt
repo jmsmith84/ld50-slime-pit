@@ -12,10 +12,10 @@ class MovesWithoutTilemapCollision(
         val delta = getDeltaScale(dt)
 
         if (view.isMovingLeft() || view.isMovingRight()) {
-            view.x += view.move.x * delta
+            view.x += view.move.x * delta * view.speedModifier
         }
         if (view.isMovingUp() || view.isMovingDown()) {
-            view.y += view.move.y * delta
+            view.y += view.move.y * delta * view.speedModifier
         }
     }
 }

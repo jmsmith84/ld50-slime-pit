@@ -76,6 +76,9 @@ class AssetManager : InjectorAsyncDependency {
 
         levels = mutableMapOf()
         levels[1u] = resourcesVfs["${dirs["maps"]}/acid001.tmx"].readTiledMapData()
+        levels[2u] = resourcesVfs["${dirs["maps"]}/acid002.tmx"].readTiledMapData()
+        //levels[3u] = resourcesVfs["${dirs["maps"]}/acid003.tmx"].readTiledMapData()
+        //levels[4u] = resourcesVfs["${dirs["maps"]}/acid004.tmx"].readTiledMapData()
 
         music = mutableMapOf()
     }

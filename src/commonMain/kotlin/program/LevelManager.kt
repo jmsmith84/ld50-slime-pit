@@ -8,6 +8,7 @@ import com.soywiz.korge.view.addTo
 import com.soywiz.korma.geom.IPoint
 import com.soywiz.korma.geom.Point
 import utility.recreateTileLayers
+import kotlin.random.Random
 
 @Suppress("MemberVisibilityCanBePrivate")
 class LevelManager(private val assets: AssetManager) {
@@ -29,25 +30,31 @@ class LevelManager(private val assets: AssetManager) {
         return currentLevel
     }
 
-    fun getLevelName(): String {
-        return when (currentLevel) {
+    fun setLevel(level: UShort) {
+        currentLevel = level
+    }
+
+    fun getLevelName(level: UShort = currentLevel): String {
+        return when (level) {
             1.toUShort() -> "WOT A DODDLE"
             2.toUShort() -> "E.Z. WEEZY"
+            3.toUShort() -> "ABC"
+            4.toUShort() -> "EEEE"
             else -> { "LEVEL ??" }
         }
     }
 
-    fun getCurrentMap(): TiledMap {
+    fun getMap(): TiledMap {
         if (currentMap === null) throw RuntimeException("Trying to get current level map when there isn't one")
         return currentMap!!
     }
 
-    fun getCurrentMapView(): TiledMapView {
+    fun getMapView(): TiledMapView {
         if (mapView === null) throw RuntimeException("Trying to get current map view when there isn't one")
         return mapView!!
     }
 
-    fun getCurrentMapObjects(): TiledMap.Layer.Objects {
+    fun getMapObjects(): TiledMap.Layer.Objects {
         if (currentMap === null) throw RuntimeException("Trying to get current level map when there isn't one")
         return currentMap!!.objectLayers.first()
     }
@@ -115,4 +122,18 @@ class LevelManager(private val assets: AssetManager) {
         return isTileEmpty(xy.x.toInt(), xy.y.toInt())
     }
 
+    fun getRandomTile(): IPoint {
+        return Point(Random.nextInt(getMap().width), Random.nextInt(getMap().height))
+    }
+
+    fun getRandomEmptyTile(attemptLimit: Int = 50): IPoint? {
+        if (attemptLimit < 1) return null
+        var attempts = 1
+        while (attempts <= attemptLimit) {
+            val tileXY = getRandomTile()
+            if (isTileEmpty(tileXY)) return tileXY
+            attempts++
+        }
+        return null
+    }
 }

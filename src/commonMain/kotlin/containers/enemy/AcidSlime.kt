@@ -10,8 +10,8 @@ import program.AssetManager
 import program.LevelManager
 import program.SoundManager
 
-class AcidSlime(assets: AssetManager, soundManager: SoundManager, levelManager: LevelManager, position: IPoint)
-    : SpriteEnemy(Sprite(assets.slimeBitmap), assets, soundManager, levelManager, position) {
+class AcidSlime(assets: AssetManager, soundManager: SoundManager, levelManager: LevelManager, position: IPoint) :
+    SpriteEnemy(Sprite(assets.slimeBitmap), assets, soundManager, levelManager, position) {
 
     init {
         addComponent(

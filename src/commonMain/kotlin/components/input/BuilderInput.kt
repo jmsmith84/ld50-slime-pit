@@ -16,6 +16,7 @@ import containers.player.Player
 import program.LevelManager
 import program.Log
 import utility.timer.EventTimer
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 class BuilderInput(
@@ -25,7 +26,8 @@ class BuilderInput(
     wallBuildingAnimation: SpriteAnimation,
     private val playerBuildingAnimation: SpriteAnimation? = null,
 ) : Component {
-    private var builderTimer: EventTimer = EventTimer(view, 2.38.seconds) {}
+    private val buildTime: Duration = 2.38.seconds
+    private var builderTimer: EventTimer = EventTimer(view, buildTime) {}
     private var wallSprite: Sprite
 
     init {
@@ -54,14 +56,15 @@ class BuilderInput(
                 wallSprite = Sprite(wallBuildingAnimation, smoothing = false) /* Have to create a new sprite
                     every time due to a Sprite bug where remaining frame time is never reset */
                 wallSprite.position(levelManager.tileXYToGlobalXY(tileXY))
-                wallSprite.addTo(levelManager.getCurrentMapView())
-                wallSprite.playAnimation(spriteDisplayTime = 800.0.milliseconds, startFrame = 0)
+                wallSprite.addTo(levelManager.getMapView())
+                wallSprite.playAnimation(spriteDisplayTime = 800.0.milliseconds / view.speedModifier, startFrame = 0)
 
                 builderTimer.newCallback {
                     stopBuilding()
                     if (!levelManager.isTileEmpty(tileXY)) return@newCallback
                     levelManager.setTileIdAt(tileXY.x.toInt(), tileXY.y.toInt(), WallTileStatus.WOOD_NORMAL.id)
                 }
+                builderTimer.setLength(buildTime / view.speedModifier)
                 builderTimer.restart()
             }
             if (playerBuildingAnimation !== null) view.getSprite().playAnimationLooped(
