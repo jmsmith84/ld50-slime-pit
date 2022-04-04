@@ -89,6 +89,8 @@ class BuilderInput(
         wallSprite.addTo(levelManager.getMapView())
         wallSprite.playAnimation(spriteDisplayTime = 800.0.milliseconds / view.speedModifier, startFrame = 0)
 
+        runPlayerBuildAnimation()
+
         builderTimer.newCallback {
             stopBuilding()
             if (!levelManager.isTileEmpty(tileXY)) return@newCallback
@@ -98,16 +100,20 @@ class BuilderInput(
         }
         builderTimer.setLength(buildTime / view.speedModifier)
         builderTimer.restart()
-
-        if (playerBuildingAnimation !== null) view.getSprite().playAnimationLooped(
-            playerBuildingAnimation,
-            150.milliseconds
-        )
     }
 
     override fun update(dt: TimeSpan) {
         if (buildingMode && !builderTimer.isRunning()) {
             tryBuilding()
+        } else if (builderTimer.isRunning()) {
+            runPlayerBuildAnimation()
         }
+    }
+
+    private fun runPlayerBuildAnimation() {
+        if (playerBuildingAnimation !== null) view.getSprite().playAnimationLooped(
+            playerBuildingAnimation,
+            150.milliseconds
+        )
     }
 }
